@@ -30,13 +30,13 @@
 					<input type="hidden" name="{{ stage_field }}" value="1" />
 					<div class="row">
 						{% for field in form %}
-						<div class="{% if forloop.counter > 6 %}col-md-2{% else %}col-md-6{% endif %}">
+						<div class="{% if forloop.counter > 4 and forloop.counter < 9 %}col-md-3{% elif forloop.counter > 8 %}col-md-4{% else %}col-md-6{% endif %}">
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{{ field }}
 						</div>
 						{% endfor %}
 						<div class="col-12">
-							<button class="btn btn-primary btn-block" type="submit">{% trans "Preview" %}</button>
+							<button class="btn btn-warning btn-block" type="submit">{% trans "Submit" %}</button>
 						</div>
 					</div>
 				</form>

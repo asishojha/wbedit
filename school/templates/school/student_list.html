@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 <section class="bg-info" style="min-height: calc(100vh - 111px);">
     <div class="container-fluid">
@@ -16,6 +17,7 @@
                             <th scope="col">Total</th>
                             <th scope="col">Selected</th>
                             <th scope="col">Not Selected</th>
+                            <th scope="col">Pending</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,6 +27,7 @@
                             <td>{{total_students}}</td>
                             <td>{{selected_students}}</td>
                             <td>{{not_selected_students}}</td>
+                            <td>{{pending_students}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -52,7 +55,7 @@
                                 <td scope="row"><a href="{{ s.get_absolute_url }}">{{s.serial}}</a></td>
                                 <td>{{s.name}}</td>
                                 <td>{{s.f_name}}</td>
-                                <td>{{s.dob}}</td>
+                                <td>{{s.dob|date_format|date:'d/m/y'}}</td>
                                 <td>{{s.get_fl_name}}</td>
                                 <td>{{s.get_sl_name}}</td>
                                 <td>{% if s.selected %}Yes{% elif s.not_selected %}No{% elif not s.selected and not s.not_selected  %}-{% endif %}</td>

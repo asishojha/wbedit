@@ -47,6 +47,7 @@ def student_list(request):
 	total_students = Student.objects.filter(school=request.user)
 	selected_students = Student.objects.filter(school=request.user, selected=True)
 	not_selected_students = Student.objects.filter(school=request.user, not_selected=True)
+	pending_students = Student.objects.filter(school=request.user, selected=False, not_selected=False)
 
 	paginator = Paginator(total_students, 15)
 	page_number = request.GET.get('page')
@@ -59,6 +60,7 @@ def student_list(request):
 		'total_students': total_students.count(),
 		'selected_students': selected_students.count(),
 		'not_selected_students': not_selected_students.count(),
+		'pending_students': pending_students.count(),
 		'page_obj': page_obj
 
 	}

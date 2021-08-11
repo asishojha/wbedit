@@ -122,13 +122,14 @@ class StudentForm(forms.ModelForm):
 	fl = forms.ChoiceField(choices=FIRST_LANGUAGE_CODE, label='First Language')
 	sl = forms.ChoiceField(choices=SECOND_LANGUAGE_CODE, label='Second Language')
 	opt = forms.ChoiceField(choices=OPTIONAL_ELECTIVE_CODE, label='Optional Elective')
-	caste = forms.ChoiceField(choices=CASTE_CHOICES)
+	caste = forms.ChoiceField(choices=CASTE_CHOICES, required=False)
 	religion = forms.ChoiceField(choices=RELIGION_CHOICES)
 	sex = forms.ChoiceField(choices=SEX_CHOICES, label='Gender')
-	
+	dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='Date of Birth')
+
 	class Meta:
 		model = Student
-		exclude = ['school', 'school_profile', 'path_target', 'serial', 'edited', 'dob_edited', 'selected', 'not_selected']
+		exclude = ['school', 'school_profile', 'path_target', 'serial', 'edited', 'dob_edited', 'selected', 'not_selected', 'g_indicator']
 
 	def __init__(self, *args, **kwargs):
 		super(StudentForm, self).__init__(*args, **kwargs)

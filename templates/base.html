@@ -26,8 +26,8 @@
         <div class=" collapse navbar-collapse justify-content-between" id="nav">
             <ul class="navbar-nav ml-auto">
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:index' %}">Home</a></li>
-                {% comment %}<li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:students' %}">Students List</a></li>
-                <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:instructions' %}">Instructions</a></li>
+                <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:student_list' %}">Students List</a></li>
+                {% comment %}<li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:instructions' %}">Instructions</a></li>
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:notifications' %}">Notifications</a></li>{% endcomment %}
                 {% if request.user.is_authenticated %}
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:logout' %}">Logout</a></li>
