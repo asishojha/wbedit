@@ -1,0 +1,55 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <title>W.B.B.S.E.</title>
+    <style>
+    .errorlist {
+        padding-left: 15px;
+        color: red;
+        text-shadow: 0 0 black;
+    }
+    </style>
+    {% block style %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
+        <a href="{% url 'school:index' %}" class="navbar-brand">
+            <img src="{% static 'logo.png' %}" height="85" alt="CoolBrand">
+            <span class="d-inline ml-2 my-auto" style="font-size:36px;color:#fff;letter-spacing: 1.2px;vertical-align:middle;">W.B.B.S.E.</span>
+        </a>
+        <button class=" navbar-toggler bg-light" data-toggle="collapse" data-target="#nav"><span class="navbar-toggler-icon"></span></button>
+        <div class=" collapse navbar-collapse justify-content-between" id="nav">
+            <ul class="navbar-nav ml-auto">
+                <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:index' %}">Home</a></li>
+                {% comment %}<li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:students' %}">Students List</a></li>
+                <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:instructions' %}">Instructions</a></li>
+                <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:notifications' %}">Notifications</a></li>{% endcomment %}
+                {% if request.user.is_authenticated %}
+                <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:logout' %}">Logout</a></li>
+                {% else %}
+                <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <section class="bg-info" style="margin-top: 111px">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert mb-0 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    </section>
+    {% block content %}{% endblock %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    {% block script %}{% endblock %}
+</body>
+
+</html>

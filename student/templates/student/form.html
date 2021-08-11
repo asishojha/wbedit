@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+    .list-group-item{
+        padding: .15rem 1rem;
+    }
+</style>
+{% endblock %}
+{% load i18n %}
+{% block content %}
+<section class="student bg-info pt-4" style="min-height: calc(100vh - 111px);">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				{{ form.non_field_errors }}
+				<div class="row text-left">
+				{% for f in form %}
+				{% if f.errors %}
+				<div class="col-6">
+				<p class="pl-4" style="color:red;">{{ f.label }}</p>
+				{{ f.errors }}
+				</div>
+				{% endif %}
+				{% endfor %}
+				</div>
+				<form method="POST" action=".">
+					{% csrf_token %}
+					<input type="hidden" name="school" value="{{ student.school.id }}" />
+					<input type="hidden" name="{{ stage_field }}" value="1" />
+					<div class="row">
+						{% for field in form %}
+						<div class="{% if forloop.counter > 6 %}col-md-2{% else %}col-md-6{% endif %}">
+							<label for="{{ field.auto_id }}">{{ field.label }}</label>
+							{{ field }}
+						</div>
+						{% endfor %}
+						<div class="col-12">
+							<button class="btn btn-primary btn-block" type="submit">{% trans "Preview" %}</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+	$('form').submit(function(e){
+		$(':disabled').each(function(e){
+			$(this).removeAttr('disabled');
+		});
+	});
+</script>
+{% endblock %}
