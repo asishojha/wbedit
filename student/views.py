@@ -14,7 +14,7 @@ def student(request, serial):
 
 def select_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
-	student.selected = True
+	student.status = '1'
 	student.save()
 
 	try:
@@ -22,13 +22,12 @@ def select_student(request, serial):
 		messages.success(request, f'Student {student.name} has been marked as Selected')
 		return redirect(next_student.get_absolute_url())
 	except Exception:
-		next_student = None
 		return redirect('school:student_list')
 
 
 def not_select_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
-	student.not_selected = True
+	student.status = '2'
 	student.save()
 
 	try:
@@ -36,7 +35,6 @@ def not_select_student(request, serial):
 		messages.warning(request, f'Student {student.name} has been marked as NOT Selected')
 		return redirect(next_student.get_absolute_url())
 	except Exception:
-		next_student = None
 		return redirect('school:student_list')
 
 def edit_student(request, serial):
@@ -47,11 +45,12 @@ def edit_student(request, serial):
 	form = StudentForm(initial=student_dict)
 
 	if request.method == 'POST':
-		form = StudentForm(request.POST)
+		form = StudentForm(request.POST, instance=student)
 		if form.is_valid():
 			dob = form.cleaned_data.get('dob')
 			s = form.save(commit=False)
 			s.dob = dob.strftime('%d%m%y')
+			s.edited = True
 			s.save()
 			messages.success(request, f"Information for student {student.name} has been updated. Please SELECT / NOT SELECT the student.")
 			return redirect(student.get_absolute_url())

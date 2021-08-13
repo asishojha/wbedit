@@ -119,6 +119,12 @@ SEX_CHOICES = {
 	"2": "FEMALE"
 }
 
+STATUS_CHOICES = (
+	('', 'Pending'),
+	('1', 'Selected'),
+	('2', 'Not Selected'),
+)
+
 class Student(models.Model):
 	school = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	school_profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
@@ -137,12 +143,10 @@ class Student(models.Model):
 	opt = models.CharField(max_length=2, null=True, blank=True, verbose_name='Optional Elective')
 	serial = models.CharField(max_length=4)
 	edited = models.BooleanField(default=False)
-	dob_edited = models.BooleanField(default=False)
-	selected = models.BooleanField(default=False)
-	not_selected = models.BooleanField(default=False)
+	status = models.CharField(max_length=1, choices=STATUS_CHOICES, null=True)
 
 	def __str__(self):
-		return f'{self.school.username}'
+		return self.school.username
 
 	def get_absolute_url(self):
 		return reverse('student:student' , kwargs={

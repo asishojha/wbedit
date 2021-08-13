@@ -9,6 +9,7 @@ class Profile(models.Model):
 	headmaster_phone = models.BigIntegerField(validators=[MinValueValidator(1000000000), MaxValueValidator(9999999999)])
 	created_on = models.DateTimeField(auto_now_add=True)
 	modified_on = models.DateTimeField(auto_now=True)
+	complete = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.school.username

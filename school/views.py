@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -45,13 +46,18 @@ def student_list(request):
 	male_students = Student.objects.filter(school=request.user, sex='1')
 	female_students = Student.objects.filter(school=request.user, sex='2')
 	total_students = Student.objects.filter(school=request.user)
-	selected_students = Student.objects.filter(school=request.user, selected=True)
-	not_selected_students = Student.objects.filter(school=request.user, not_selected=True)
-	pending_students = Student.objects.filter(school=request.user, selected=False, not_selected=False)
+	selected_students = Student.objects.filter(school=request.user, status='1')
+	not_selected_students = Student.objects.filter(school=request.user, status='2')
+	pending_students = Student.objects.filter(school=request.user, status=None)
 
 	paginator = Paginator(total_students, 15)
 	page_number = request.GET.get('page')
 	page_obj = paginator.get_page(page_number)
+
+	try:
+		first_student = pending_students[0]
+	except IndexError:
+		first_student = None
 	
 	context = {
 		'userx': request.user,
@@ -61,7 +67,19 @@ def student_list(request):
 		'selected_students': selected_students.count(),
 		'not_selected_students': not_selected_students.count(),
 		'pending_students': pending_students.count(),
-		'page_obj': page_obj
+		'page_obj': page_obj,
+		'first_student': first_student
 
 	}
 	return render(request, 'school/student_list.html', context)
+
+def submit_final_data(request):
+	if request.method == 'POST':
+		agree = request.POST.get('agree')
+		if agree:
+			profile = request.user.profile
+			profile.complete = True
+			profile.save()
+			messages.success(request, 'Congratulations! All your data has been finally submitted. Your can now download the report generated.')
+			return redirect('school:student_list')
+	return render(request, 'school/submit-data.html')

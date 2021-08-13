@@ -34,7 +34,7 @@
                 <div>
                     {% if first_student %}
                     <div class="text-center">
-                        <a href="{{first_student.get_absolute_url }}" class="btn btn-success my-1">Start Entering Marks</a>
+                        <a href="{{first_student.get_absolute_url }}" class="btn btn-success my-1">Start Editing Data</a>
                     </div>
                     {% endif %}
                     <table class="table table-striped table-dark">
@@ -58,11 +58,21 @@
                                 <td>{{s.dob|date_format|date:'d/m/y'}}</td>
                                 <td>{{s.get_fl_name}}</td>
                                 <td>{{s.get_sl_name}}</td>
-                                <td>{% if s.selected %}Yes{% elif s.not_selected %}No{% elif not s.selected and not s.not_selected  %}-{% endif %}</td>
+                                <td>{% if s.status == '1' %}Yes{% elif s.status == '2' %}No{% else %}-{% endif %}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    {% if not pending_students and not request.user.profile.complete %}
+                    <div class="text-center">
+                        <a href="{% url 'school:submit_final_data' %}" class="btn btn-success my-1">Submit Final Data</a>
+                    </div>
+                    {% endif %}
+                    {% if not pending_students and request.user.profile.complete %}
+                    <div class="text-center">
+                        <a href="#" class="btn btn-success my-1">Download Report</a>
+                    </div>
+                    {% endif %}
                     <div class="container p-4">
                         <div class="pagination justify-content-center">
                             <span class="step-links">

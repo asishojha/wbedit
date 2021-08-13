@@ -6,50 +6,45 @@
 <section class="py-2">
 		<div class="container">
 		<h2>Student Details</h2>
-		<div class="p-2" style="background-color: #dbdcdd;">
+		<div class="p-2" style="background-color: #ededed;">
 			<div class="row">
-				<div class="col-md-3"><strong>Student Name</strong>: </div>
-				<div class="col-md-6">{{ student.name }}</div>
+				<div class="col-md-3"><p><strong>Student Name</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.name }}</p></div>
+			
+				<div class="col-md-3"><p><strong>Father's Name</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.f_name }}</p></div>
 			</div>
 			<div class="row">
-				<div class="col-md-3"><strong>Father's Name</strong>: </div>
-				<div class="col-md-6">{{ student.f_name }}</div>
+				<div class="col-md-3"><p><strong>Mother' Name</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.m_name }}</p></div>
+			
+				<div class="col-md-3"><p><strong>Guardian's Name</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.get_guardian_name }}</p></div>
 			</div>
 			<div class="row">
-				<div class="col-md-3"><strong>Mother' Name</strong>: </div>
-				<div class="col-md-6">{{ student.m_name }}</div>
+				<div class="col-md-3"><p><strong>Date of Birth</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.dob|date_format|date }}</p></div>
+			
+				<div class="col-md-3"><p><strong>Gender</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.get_gender }}</p></div>
 			</div>
 			<div class="row">
-				<div class="col-md-3"><strong>Guardian's Name</strong>: </div>
-				<div class="col-md-6">{{ student.get_guardian_name }}</div>
+				<div class="col-md-3"><p><strong>Caste</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.get_caste }}</p></div>
+			
+				<div class="col-md-3"><p><strong>Religion</strong>:</p> </div>
+				<div class="col-md-3"><p>{{ student.get_religion }}</p></div>
 			</div>
 			<div class="row">
-				<div class="col-md-3"><strong>Date of Birth</strong>: </div>
-				<div class="col-md-6">{{ student.dob|date_format|date }}</div>
+				<div class="col-md-3"><p><strong>First Language</strong>:</p></div>
+				<div class="col-md-3"><p>{{ student.get_fl_name }}</p></div>
+			
+				<div class="col-md-3"><p><strong>Second Language</strong>:</p></div>
+				<div class="col-md-3"><p>{{ student.get_sl_name }}</p></div>
 			</div>
 			<div class="row">
-				<div class="col-md-3"><strong>Gender</strong>: </div>
-				<div class="col-md-6">{{ student.get_gender }}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><strong>Caste</strong>: </div>
-				<div class="col-md-6">{{ student.get_caste }}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><strong>Religion</strong>: </div>
-				<div class="col-md-6">{{ student.get_religion }}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><strong>First Language</strong>:</div>
-				<div class="col-md-6">{{ student.get_fl_name }}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><strong>Second Language</strong>:</div>
-				<div class="col-md-6">{{ student.get_sl_name }}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><strong>Optional Elective</strong>:</div>
-				<div class="col-md-6">{{ student.get_opt_name }}</div>
+				<div class="col-md-3"><p><strong>Optional Elective</strong>:</p></div>
+				<div class="col-md-3"><p>{{ student.get_opt_name }}</p></div>
 			</div>
 		</div>	
 		<div class="row mt-3">
