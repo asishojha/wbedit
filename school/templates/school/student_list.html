@@ -70,7 +70,7 @@
                     {% endif %}
                     {% if not pending_students and request.user.profile.complete %}
                     <div class="text-center">
-                        <a href="#" class="btn btn-success my-1">Download Report</a>
+                        <a href="{% url 'school:pdf_report' %}" class="btn btn-success my-1">Download Report</a>
                     </div>
                     {% endif %}
                     <div class="container p-4">

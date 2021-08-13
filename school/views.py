@@ -3,9 +3,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from .models import Profile
 from .forms import UsersLoginForm
 from student.models import Student
+
+import weasyprint
 
 def index(request):
 	return render(request, 'school/index.html')
@@ -83,3 +87,11 @@ def submit_final_data(request):
 			messages.success(request, 'Congratulations! All your data has been finally submitted. Your can now download the report generated.')
 			return redirect('school:student_list')
 	return render(request, 'school/submit-data.html')
+
+def pdf_report(request):
+	html = render_to_string('school/pdf-report.html', {'school': request.user})
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'filename=\
+	"{}.pdf"'.format(request.user.username)
+	weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(response)
+	return response

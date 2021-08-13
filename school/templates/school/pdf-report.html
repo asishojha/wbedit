@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load custom_filters %}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ school.username }} Report</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+		@page {
+	 		size:landscape;
+	 	}
+	 	body{
+	 		margin-left: 0;
+	 		margin-right: 0;
+	 		padding-left: 0;
+	 		padding-right: 0;
+	 	}
+	 	*{
+	 		font-family: 'Roboto', sans-serif;
+	 		letter-spacing: 0.5px;
+	 	}
+	 	tbody tr td{
+	 		padding: 8px 2px;
+	 	}
+	 	th{
+	 		padding: 5px 2px;
+	 	}
+	 	table{
+	 		width: 100%;
+	 		margin-top: 80px;
+	 	}
+	 	.logo{
+	 		position: absolute;
+	 		top: -50px;
+	 		left: -20px;
+	 	}
+	 	.heading{
+	 		position: absolute;
+	 		top: -50px;
+	 		left: 50%;
+	 		transform: translateX(-50%);
+	 		text-align: center;
+	 	}
+	 	.heading h2{
+	 		margin: 0;
+	 	}
+	 	.logo img{
+	 		width: 75px;
+	 	}
+	 	.cyan{
+	 		background-color: cyan;
+	 	}
+	 	.green{
+	 		background-color: lightgreen;
+	 	}
+	 	.orange{
+	 		background-color: orange;
+	 	}
+	 	.yellow{
+	 		background-color: yellow;
+	 	}
+	 	.declaration{
+	 		margin-top: 10px;
+	 	}
+	</style>
+</head>
+<body>
+	<div class="logo">
+		<img src="{% static 'logo.png' %}" />
+	</div>
+	<div class="heading">
+		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2020<br><br>({{ school.username }} - {{ school.first_name }})</h2>
+	</div>
+	<table>
+		<thead style="background: red;">
+			<th>SRL</th>
+			<th>Name<br>Father's Name</th>
+			<th>Mother's Name<br>Guardian's Name</th>
+			<th>S<br>X</th>
+			<th>R<br>L</th>
+			<th>C<br>C</th>
+			<th>DOB</th>
+			<th>FL</th>
+			<th>SL</th>
+			<th>OP EL</th>
+			<th>Candidate's Signature</th>
+		</thead>
+		<tbody>
+			{% for s in school.student_set.all %}
+			<tr class="{% cycle 'cyan' 'green' 'orange' 'yellow' %}">
+				<td>{{ s.serial }}</td>
+				<td>{{ s.name }}<br>{{ s.f_name }}</td>
+				<td>{{ s.m_name }}<br>{{ s.get_guardian_name }}</td>
+				<td>{% if s.sex == 1 %}M{% else %}F{% endif %}</td>
+				<td>{{ s.religion }}</td>
+				<td>{% if s.caste %}{{ s.caste }}{% endif %}</td>
+				<td>{{ s.dob|date_format|date:'d/m/Y' }}</td>
+				<td>{{ s.fl }}<br>{{ s.get_fl_short_code }}</td>
+				<td>{{ s.sl }}<br>{{ s.get_sl_short_code }}</td>
+				<td>{{ s.opt }}<br>{{ s.get_opt_el_short_code }}</td>
+				<td>{% if s.status == '1' %}_________________________{% else %}Not Selected{% endif %}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="declaration">
+		<p><strong>I, as a Headmaster/Head Clerk, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2020 prvoided by the West Bengal Board of Secondary Education are checked by school.</strong></p>
+	</div>
+</body>
+</html>

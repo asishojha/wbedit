@@ -3,6 +3,99 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from school.models import Profile
 
+SUBJECT_SHORT_CODE = {
+	"01":"AS",
+	"02":"B(FL)",
+	"03":"E(FL)",
+	"04":"GUJ(FL)",
+	"05":"HIN(FL)",
+	"06":"MAL(FL)",
+	"07":"MAR(FL)",
+	"08":"LU(FL)",
+	"09":"TBM(FL)",
+	"10":"N(FL)",
+	"11":"OY(FL)",
+	"12":"GUR(FL)",
+	"13":"SAN(FL)",
+	"14":"SAD(FL)",
+	"15":"TEL(FL)",
+	"16":"TAM(FL)",
+	"17":"U(FL)",
+	"20":"E(SL)",
+	"21":"E(SL)",
+	"22":"B(SL)",
+	"23":"N(SL)",
+	"24":"H",
+	"25":"G",
+	"26":"M",
+	"27":"PSC",
+	"28":"LSC",
+	"31":"B(A)",
+	"32":"E",
+	"33":"HIN(A)",
+	"34":"N",
+	"35":"U",
+	"36":"B(B)",
+	"37":"S",
+	"38":"PA",
+	"39":"P",
+	"40":"A",
+	"41":"LT",
+	"42":"GR",
+	"43":"TB C",
+	"44":"FR",
+	"45":"GER",
+	"46":"RUSS",
+	"47":"HIN(B)",
+	"48":"PORT",
+	"49":"SP",
+	"50":"IT",
+	"51":"AR C",
+	"52":"M",
+	"53":"BD",
+	"54":"PH",
+	"55":"CH",
+	"56":"BIO",
+	"57":"MC",
+	"58":"G",
+	"59":"WH",
+	"60":"LG",
+	"61":"PSY",
+	"62":"BC",
+	"63":"BK",
+	"64":"EC",
+	"65":"HS",
+	"66":"MU V",
+	"67":"MU I",
+	"68":"IA",
+	"69":"WWK",
+	"70":"SEW",
+	"71":"AG",
+	"72":"PS",
+	"73":"AH",
+	"74":"ST",
+	"75":"GEK",
+	"76":"HY",
+	"81":"WE",
+	"82":"PE",
+	"83":"SS",
+	"84":"WPS",
+	"85":"CA",
+	"86":"RStr",
+	"87":"SStr",
+	"88":"AStr",
+	"89":"IT",
+	"90":"HStr",
+	"91":"Elec",
+	"92":"IS",
+	"93":"TH",
+	"94":"Cons",
+	"95":"Aprl",
+	"96":"Plmb",
+	"97":"BW",
+	"98":"Lthr"
+}
+
 FIRST_LANGUAGE_CODE = {
 	'02':'BENGALI',
 	'03':'ENGLISH',
@@ -162,6 +255,17 @@ class Student(models.Model):
 	def get_opt_name(self):
 		if self.opt:
 			return OPTIONAL_ELECTIVE_SUBJECTS_DICT[self.opt]
+		return ""
+
+	def get_fl_short_code(self):
+		return SUBJECT_SHORT_CODE[self.fl]
+
+	def get_sl_short_code(self):
+		return SUBJECT_SHORT_CODE[self.sl]
+
+	def get_opt_el_short_code(self):
+		if self.opt:
+			return SUBJECT_SHORT_CODE[self.opt]
 		return ""
 
 	def get_guardian_name(self):
