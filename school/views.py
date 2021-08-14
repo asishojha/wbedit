@@ -88,8 +88,7 @@ def submit_final_data(request):
 def pdf_report(request):
 	html = render_to_string('school/pdf-report.html', {'school': request.user})
 	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'filename=\
-	"{}.pdf"'.format(request.user.username)
+	response['Content-Disposition'] = 'filename="{}.pdf"'.format(request.user.username)
 	weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(response)
 	return response
 
