@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from school.models import Profile
 
 SUBJECT_SHORT_CODE = {
+	"00": "PWR",
 	"01":"AS",
 	"02":"B(FL)",
 	"03":"E(FL)",
