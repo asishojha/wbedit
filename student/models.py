@@ -93,7 +93,8 @@ SUBJECT_SHORT_CODE = {
 	"95":"Aprl",
 	"96":"Plmb",
 	"97":"BW",
-	"98":"Lthr"
+	"98":"Lthr",
+	"99": "Agrl"
 }
 
 FIRST_LANGUAGE_CODE = {

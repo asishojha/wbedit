@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
+from .models import Profile
 
 class UsersLoginForm(forms.Form):
 	username = forms.CharField()
@@ -25,3 +26,18 @@ class UsersLoginForm(forms.Form):
 				raise forms.ValidationError("User is no longer active")
 			
 		return super(UsersLoginForm, self).clean(*args, **keyargs)
+
+class ProfileForm(forms.ModelForm):
+	class Meta:
+		model = Profile
+		exclude = ['school', 'complete']
+
+	def __init__(self, *args, **kwargs):
+		super(ProfileForm, self).__init__(*args, **kwargs)
+		
+		self.fields['headmaster_name'].label = 'Name of H.M. / T.I.C'      
+		self.fields['headmaster_phone'].label = 'Mobile Number'
+		self.fields['headmaster_email'].label = 'E-mail Address'
+
+		for field in self.fields:
+			self.fields[field].widget.attrs.update({'class': 'form-control'})

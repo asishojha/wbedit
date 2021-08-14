@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from .models import Profile
-from .forms import UsersLoginForm
+from .forms import UsersLoginForm, ProfileForm
 from student.models import Student
 
 import weasyprint
@@ -23,18 +23,15 @@ def login_view(request):
 		password = form.cleaned_data.get("password")
 		user = authenticate(username = username, password = password)
 		login(request, user)
-		return redirect('school:student_list')
+		# return redirect('school:student_list')
 		# if user.has_perm('marks.can_update'):
 			# return redirect('marks:students')
 		# else:
-		# try:
-			# profile = request.user.profile
-			# if not user.has_perm('marks.can_change_password'):
-				# return redirect('marks:students')
-			# else:
-				# return redirect('marks:reset_password')
-		# except Profile.DoesNotExist:
-			# return redirect("school:profile")
+		try:
+			profile = request.user.profile
+			return redirect('school:student_list')
+		except Profile.DoesNotExist:
+			return redirect("school:profile")
 	return render(request, "accounts/form.html", {
 		"form" : form,
 		"title" : "Login",
@@ -95,3 +92,27 @@ def pdf_report(request):
 	"{}.pdf"'.format(request.user.username)
 	weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(response)
 	return response
+
+def profile(request):
+	user = request.user
+	try:
+		profile = request.user.profile
+		return redirect('school:student_list')
+	except Profile.DoesNotExist:
+		pass
+	form = ProfileForm()
+	if request.method == 'POST':
+		form = ProfileForm(request.POST)
+		if form.is_valid():
+			profile = form.save(commit=False)
+			profile.school = user
+			profile.save()
+			user.email = profile.headmaster_email
+			user.save()
+			# permission = Permission.objects.get(codename='can_change_password')
+			# user.user_permissions.add(permission)
+			return redirect('school:student_list')
+	context = {
+		'form': form
+	}
+	return render(request, 'school/profile.html', context)
