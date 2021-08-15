@@ -44,7 +44,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-3"><p><strong>Optional Elective</strong>:</p></div>
-				<div class="col-md-3"><p>{{ student.get_opt_name }}</p></div>
+				<div class="col-md-3"><p>{% if student.opt %}{{ student.get_opt_name }}{% else %}NONE{% endif %}</p></div>
 			</div>
 		</div>	
 		<div class="row mt-3">

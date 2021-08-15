@@ -23,12 +23,8 @@ SECOND_LANGUAGE_CODE = (
 )
 
 OPTIONAL_ELECTIVE_CODE = (
+    ("", "None"),
     ("00",  "POWER"),
-    ("24", "HISTORY"),
-    ("25", "GEOGRAPHY"),
-    ("26", "MATHEMATICS"),
-    ("27", "PHYSICAL SCIENCE"),
-    ("28", "LIFE SCIENCE"),
     ("31", "BENGALI(A LEVEL)"),
     ("32", "ENGLISH"),
     ("33", "HINDI(A LEVEL)"),
@@ -121,7 +117,7 @@ SEX_CHOICES = (
 class StudentForm(forms.ModelForm):
 	fl = forms.ChoiceField(choices=FIRST_LANGUAGE_CODE, label='First Language')
 	sl = forms.ChoiceField(choices=SECOND_LANGUAGE_CODE, label='Second Language')
-	opt = forms.ChoiceField(choices=OPTIONAL_ELECTIVE_CODE, label='Optional Elective')
+	opt = forms.ChoiceField(choices=OPTIONAL_ELECTIVE_CODE, label='Optional Elective', required=False)
 	caste = forms.ChoiceField(choices=CASTE_CHOICES, required=False)
 	religion = forms.ChoiceField(choices=RELIGION_CHOICES)
 	sex = forms.ChoiceField(choices=SEX_CHOICES, label='Gender')
@@ -129,7 +125,7 @@ class StudentForm(forms.ModelForm):
 
 	class Meta:
 		model = Student
-		exclude = ['school', 'school_profile', 'path_target', 'serial', 'edited', 'dob_edited', 'selected', 'not_selected', 'g_indicator']
+		exclude = ['school', 'school_profile', 'path_target', 'serial', 'edited', 'dob_edited', 'selected', 'not_selected', 'g_indicator', 'status']
 
 	def __init__(self, *args, **kwargs):
 		super(StudentForm, self).__init__(*args, **kwargs)

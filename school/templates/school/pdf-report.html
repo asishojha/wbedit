@@ -23,13 +23,18 @@
 	 	}
 	 	tbody tr td{
 	 		padding: 8px 2px;
+	 		text-align: left;
+	 		font-size: 14px;
 	 	}
 	 	th{
 	 		padding: 5px 2px;
+	 		text-align: left;
 	 	}
 	 	table{
 	 		width: 100%;
 	 		margin-top: 10px;
+	 		border-collapse: collapse;
+	 		border-spacing: 0;
 	 	}
 	 	.logo{
 	 		position: absolute;
@@ -49,23 +54,22 @@
 	 	.logo img{
 	 		width: 75px;
 	 	}
-	 	.cyan{
-	 		background-color: cyan;
+	 	.white{
+	 		background-color: floralwhite;
 	 	}
-	 	.green{
-	 		background-color: lightgreen;
-	 	}
-	 	.orange{
-	 		background-color: orange;
-	 	}
-	 	.yellow{
-	 		background-color: yellow;
+	 	.gray{
+	 		background-color: rgba(0, 0, 0, 0.3);
 	 	}
 	 	.declaration{
 	 		margin-top: 10px;
 	 	}
 	 	p.school-info{
 	 		margin-top: 50px;
+	 	}
+	 	.bottom-box{
+	 		position: absolute;
+	 		bottom: 0;
+	 		right: 0;
 	 	}
 	</style>
 </head>
@@ -78,7 +82,7 @@
 	</div>
 	<p class="school-info"><strong>School: {{ school.username|index_format }} {{ school.first_name }}</strong></p>
 	<table>
-		<thead style="background: red;">
+		<thead style="background: rgba(0, 0, 0, 0.5);">
 			<th>SRL</th>
 			<th>Name<br>Father's Name</th>
 			<th>Mother's Name<br>Guardian's Name</th>
@@ -93,7 +97,7 @@
 		</thead>
 		<tbody>
 			{% for s in school.student_set.all %}
-			<tr class="{% cycle 'cyan' 'green' 'orange' 'yellow' %}">
+			<tr class="{% cycle 'white' 'gray' %}">
 				<td>{{ s.serial }}</td>
 				<td>{{ s.name }}<br>{{ s.f_name }}</td>
 				<td>{{ s.m_name }}<br>{{ s.get_guardian_name }}</td>
@@ -111,6 +115,10 @@
 	</table>
 	<div class="declaration">
 		<p><strong>I, as a Headmaster/Head Clerk, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2020 prvoided by the West Bengal Board of Secondary Education is checked by the school.</strong></p>
+	</div>
+	<div class="bottom-box">
+		<p>___________________________________________________________</p>
+		<p><strong>Signature of The Head of The Institution along with the seal</strong></p>
 	</div>
 </body>
 </html>
