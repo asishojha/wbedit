@@ -29,7 +29,7 @@
 	 	}
 	 	table{
 	 		width: 100%;
-	 		margin-top: 80px;
+	 		margin-top: 10px;
 	 	}
 	 	.logo{
 	 		position: absolute;
@@ -64,6 +64,9 @@
 	 	.declaration{
 	 		margin-top: 10px;
 	 	}
+	 	p.school-info{
+	 		margin-top: 50px;
+	 	}
 	</style>
 </head>
 <body>
@@ -71,8 +74,9 @@
 		<img src="{% static 'logo.png' %}" />
 	</div>
 	<div class="heading">
-		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2020<br><br>({{ school.username }} - {{ school.first_name }})</h2>
+		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2020</h2>
 	</div>
+	<p class="school-info"><strong>School: {{ school.username|index_format }} {{ school.first_name }}</strong></p>
 	<table>
 		<thead style="background: red;">
 			<th>SRL</th>
@@ -93,7 +97,7 @@
 				<td>{{ s.serial }}</td>
 				<td>{{ s.name }}<br>{{ s.f_name }}</td>
 				<td>{{ s.m_name }}<br>{{ s.get_guardian_name }}</td>
-				<td>{% if s.sex == 1 %}M{% else %}F{% endif %}</td>
+				<td>{% if s.sex == '1' %}M{% else %}F{% endif %}</td>
 				<td>{{ s.religion }}</td>
 				<td>{% if s.caste %}{{ s.caste }}{% endif %}</td>
 				<td>{{ s.dob|date_format|date:'d/m/Y' }}</td>
@@ -106,7 +110,7 @@
 		</tbody>
 	</table>
 	<div class="declaration">
-		<p><strong>I, as a Headmaster/Head Clerk, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2020 prvoided by the West Bengal Board of Secondary Education are checked by school.</strong></p>
+		<p><strong>I, as a Headmaster/Head Clerk, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2020 prvoided by the West Bengal Board of Secondary Education is checked by the school.</strong></p>
 	</div>
 </body>
 </html>
