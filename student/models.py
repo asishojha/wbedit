@@ -288,7 +288,7 @@ class Student(models.Model):
 
 class SupportDocument(models.Model):
 	student = models.OneToOneField(Student, on_delete=models.SET_NULL, null=True)
-	document = models.CharField(max_length=50, help_text='Please mention the supporting document on basis of which the change was made. Ex: Admission Certificate')
+	document = models.CharField(max_length=50, help_text='Please mention the supporting document on basis of which the change was made. Ex: admission register / birth certificate / etc')
 
 	def __str__(self):
 		return self.student.serial
