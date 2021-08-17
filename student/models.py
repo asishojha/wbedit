@@ -285,3 +285,10 @@ class Student(models.Model):
 		
 	class Meta:
 		ordering = ('serial', )
+
+class SupportDocument(models.Model):
+	student = models.OneToOneField(Student, on_delete=models.SET_NULL, null=True)
+	document = models.CharField(max_length=50, help_text='Please mention the supporting document on basis of which the change was made. Ex: Admission Certificate')
+
+	def __str__(self):
+		return self.student.serial

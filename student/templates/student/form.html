@@ -5,6 +5,13 @@
     .list-group-item{
         padding: .15rem 1rem;
     }
+    .help_text{
+    	color: red;
+    	font-weight: bold;
+    	text-shadow: 0 0 black;
+    	letter-spacing: 0.34px;
+    	font-size: 15px;
+    }
 </style>
 {% endblock %}
 {% load i18n %}
@@ -27,14 +34,15 @@
 				<form method="POST" action=".">
 					{% csrf_token %}
 					<input type="hidden" name="school" value="{{ student.school.id }}" />
-					<input type="hidden" name="{{ stage_field }}" value="1" />
+					<input type="hidden" name="edited" value="0" id="id_edited" />
 					<div class="row">
-						{% for field in form %}
-						<div class="{% if forloop.counter > 4 and forloop.counter < 9 %}col-md-3{% elif forloop.counter > 8 %}col-md-4{% else %}col-md-6{% endif %}">
+						{% for field in form %}{% if field.name != 'edited' %}
+						<div class="{% if forloop.counter > 4 and forloop.counter < 9 %}col-md-3{% elif forloop.counter > 8 %}col-md-4{% elif field.name == 'document' %}col-md-12{% else %}col-md-6{% endif %}">
 							<label for="{{ field.auto_id }}">{{ field.label }}</label>
 							{{ field }}
+							{% if field.help_text %}<p class="help_text">{{ field.help_text }}</p>{% endif %}
 						</div>
-						{% endfor %}
+						{% endif %}{% endfor %}
 						<div class="col-12">
 							<button class="btn btn-warning btn-block" type="submit">{% trans "Submit" %}</button>
 						</div>
@@ -48,9 +56,17 @@
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-	$('form').submit(function(e){
-		$(':disabled').each(function(e){
-			$(this).removeAttr('disabled');
+	$(document).ready(function(){
+		$originalForm = $('form').serialize();
+		$edited = $('#id_edited');
+		$('form').submit(function(e){
+			if ($('form').serialize() !== $originalForm){
+				$edited.val("1");
+			}
+
+			$(':disabled').each(function(e){
+				$(this).removeAttr('disabled')
+			});
 		});
 	});
 </script>

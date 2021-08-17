@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.forms.models import model_to_dict
 from datetime import datetime
-from .models import Student
-from .forms import StudentForm
+from .models import Student, SupportDocument
+from .forms import StudentForm, SupportDocumentForm
 
 def student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
@@ -47,14 +47,37 @@ def edit_student(request, serial):
 	if request.method == 'POST':
 		form = StudentForm(request.POST, instance=student)
 		if form.is_valid():
-			dob = form.cleaned_data.get('dob')
+			edited = form.cleaned_data.get('edited')
+			form.cleaned_data.pop('edited')
 			s = form.save(commit=False)
-			s.dob = dob.strftime('%d%m%y')
-			s.edited = True
+			dob = form.cleaned_data.get('dob').strftime('%d%m%y')
+			s.dob = dob
 			s.save()
+			if edited == '1':
+				messages.warning(request, f"Information for student {student.name} has been edited. Please mention the supporting document for the valid change.")
+				return redirect('student:support_document', serial=serial)
 			messages.success(request, f"Information for student {student.name} has been updated. Please SELECT / NOT SELECT the student.")
 			return redirect(student.get_absolute_url())
 
+	context = {
+		'form': form
+	}
+	return render(request, 'student/form.html', context)
+
+def support_document(request, serial):
+	student = Student.objects.filter(school=request.user, serial=serial)[0]
+	form = SupportDocumentForm()
+	if request.method == 'POST':
+		form = SupportDocumentForm(request.POST)
+		if form.is_valid():
+			document = form.save(commit=False)
+			document.student = student
+			document.save()
+
+			student.edited = True
+			student.save()
+			messages.success(request, f"Information for student {student.name} has been updated. Please SELECT / NOT SELECT the student.")
+			return redirect(student.get_absolute_url())
 	context = {
 		'form': form
 	}
