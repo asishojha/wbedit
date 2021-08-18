@@ -66,9 +66,13 @@ def edit_student(request, serial):
 
 def support_document(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
-	form = SupportDocumentForm()
+	try:
+		support_document = SupportDocument.objects.get(student=student)
+	except SupportDocument.DoesNotExist:
+		support_document = None
+	form = SupportDocumentForm(instance=support_document)
 	if request.method == 'POST':
-		form = SupportDocumentForm(request.POST)
+		form = SupportDocumentForm(request.POST, instance=support_document)
 		if form.is_valid():
 			document = form.save(commit=False)
 			document.student = student

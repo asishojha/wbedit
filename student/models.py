@@ -266,11 +266,21 @@ class Student(models.Model):
 		return ""
 
 	def get_guardian_name(self):
+
 		if self.g_indicator == 'M':
-			return self.m_name
-		if self.g_indicator == '' and self.g_name == '':
-			return self.f_name
-		return self.g_name
+			if self.g_name == '':
+				return self.m_name
+			elif self.g_name == self.f_name:
+				return self.f_name
+			else:
+				return self.g_name
+		else:
+			if self.g_name == self.m_name:
+				return self.m_name
+			elif self.g_name == self.f_name:
+				return self.f_name
+			else:
+				return self.g_name
 
 	def get_gender(self):
 		return SEX_CHOICES[self.sex]
@@ -285,6 +295,13 @@ class Student(models.Model):
 		
 	class Meta:
 		ordering = ('serial', )
+
+	def save(self, *args, **kwargs):
+		self.name = self.name.upper()
+		self.f_name = self.f_name.upper()
+		self.m_name = self.m_name.upper()
+		self.g_name = self.g_name.upper()
+		super(Student, self).save(*args, **kwargs)
 
 class SupportDocument(models.Model):
 	student = models.OneToOneField(Student, on_delete=models.SET_NULL, null=True)
