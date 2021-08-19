@@ -4,7 +4,9 @@ from django.forms.models import model_to_dict
 from datetime import datetime
 from .models import Student, SupportDocument
 from .forms import StudentForm, SupportDocumentForm
+from .decorators import can_edit_data
 
+@can_edit_data
 def student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	context = {
@@ -12,6 +14,7 @@ def student(request, serial):
 	}
 	return render(request, 'student/student.html', context)
 
+@can_edit_data
 def select_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	student.status = '1'
@@ -24,7 +27,7 @@ def select_student(request, serial):
 	except Exception:
 		return redirect('school:student_list')
 
-
+@can_edit_data
 def not_select_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	student.status = '2'
@@ -37,6 +40,7 @@ def not_select_student(request, serial):
 	except Exception:
 		return redirect('school:student_list')
 
+@can_edit_data
 def edit_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	student_dict = model_to_dict(student, fields=[field.name for field in student._meta.fields])

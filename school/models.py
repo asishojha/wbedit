@@ -10,6 +10,7 @@ class Profile(models.Model):
 	created_on = models.DateTimeField(auto_now_add=True)
 	modified_on = models.DateTimeField(auto_now=True)
 	complete = models.BooleanField(default=False)
+	password_changed = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.school.username

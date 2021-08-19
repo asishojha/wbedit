@@ -75,10 +75,21 @@ def student_list(request):
 	return render(request, 'school/student_list.html', context)
 
 def submit_final_data(request):
+	school = request.user
+	profile = school.profile
+	pending_students = school.student_set.filter(status=None)
+	
+	if pending_students.count():
+		messages.warning(request, 'Please make sure that all the students are marked as either SELECTED or NOT SELECTED')
+		return redirect('school:student_list')
+
+	if profile.complete:
+		messages.success(request, 'Final Data is already submitted for your students. Please download the report.')
+		return redirect('school:student_list')		
+
 	if request.method == 'POST':
 		agree = request.POST.get('agree')
 		if agree:
-			profile = request.user.profile
 			profile.complete = True
 			profile.save()
 			messages.success(request, 'Congratulations! All your data has been finally submitted. Your can now download the report generated.')
