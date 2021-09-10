@@ -49,6 +49,16 @@ def logout_view(request):
 
 @login_required
 def student_list(request):
+	try:
+		profile = request.user.profile
+		pass
+	except Profile.DoesNotExist:
+		return redirect('school:profile')
+
+	if not request.user.has_perm('auth.can_change_password'):
+		pass
+	else:
+		return redirect('school:reset_password')
 	male_students = Student.objects.filter(school=request.user, sex='1')
 	female_students = Student.objects.filter(school=request.user, sex='2')
 	total_students = Student.objects.filter(school=request.user)

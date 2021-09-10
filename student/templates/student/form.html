@@ -72,5 +72,24 @@
 			});
 		});
 	});
+
+	window.addEventListener( "pageshow", function ( event ) {
+	var historyTraversal = event.persisted || 
+							( typeof window.performance != "undefined" && 
+							window.performance.navigation.type === 2 );
+	if ( historyTraversal ) {
+			// Handle page restore.
+			window.location.reload();
+		}
+	});
+
+	$('input').on('keypress', function (event) {
+	    var regex = new RegExp("^[a-zA-Z]+$");
+	    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	    if (!regex.test(key)) {
+	       event.preventDefault();
+	       return false;
+	    }
+	});
 </script>
 {% endblock %}
