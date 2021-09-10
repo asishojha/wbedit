@@ -15,3 +15,8 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.school.username
+
+	def save(self, *args, **kwargs):
+		if self.verification_name:
+			self.verification_name = self.verification_name.upper()
+		super(Profile, self).save(*args, **kwargs)
