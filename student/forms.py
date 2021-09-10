@@ -126,6 +126,8 @@ class StudentForm(forms.ModelForm):
 		cleaned_data = self.cleaned_data
 		fl = cleaned_data.get('fl')
 		sl = cleaned_data.get('sl')
+		religion = cleaned_data.get('religion')
+		caste = cleaned_data.get('caste')
 
 		if fl == '02' and sl == '22':
 			raise forms.ValidationError(
@@ -142,6 +144,12 @@ class StudentForm(forms.ModelForm):
 				_('Invalid FL and SL combination'),
 				code='invalid'
 				)
+		if religion == '2':
+			if caste == '2' or caste == '1':
+				raise forms.ValidationError(
+					_('Islam cannot have caste SC/ST'),
+					code='invalid'
+					)
 		return cleaned_data
 
 # class SupportDocumentForm(forms.ModelForm):
