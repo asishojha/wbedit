@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from .models import Profile
+from django.contrib.auth.forms import PasswordChangeForm
 
 class UsersLoginForm(forms.Form):
 	username = forms.CharField()
@@ -30,7 +31,7 @@ class UsersLoginForm(forms.Form):
 class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = Profile
-		exclude = ['school', 'complete']
+		exclude = ['school', 'complete', 'password_changed', 'verification_name']
 
 	def __init__(self, *args, **kwargs):
 		super(ProfileForm, self).__init__(*args, **kwargs)
@@ -39,5 +40,11 @@ class ProfileForm(forms.ModelForm):
 		self.fields['headmaster_phone'].label = 'Mobile Number'
 		self.fields['headmaster_email'].label = 'E-mail Address'
 
+		for field in self.fields:
+			self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+class PasswordResetForm(PasswordChangeForm):
+	def __init__(self, *args, **kwargs):
+		super(PasswordChangeForm, self).__init__(*args, **kwargs)
 		for field in self.fields:
 			self.fields[field].widget.attrs.update({'class': 'form-control'})

@@ -48,8 +48,8 @@
 			</div>
 		</div>	
 		<div class="row mt-3">
-			<div class="col-md-4"><a href="{% url 'student:select_student' serial=student.serial %}" class="btn btn-success d-block">Selected</a></div>
-			<div class="col-md-4"><a href="{% url 'student:not_select_student' serial=student.serial %}" class="btn btn-warning d-block">Not Selected</a></div>
+			<div class="col-md-4"><a href="{% url 'student:select_student' serial=student.serial %}" class="btn btn-success d-block">Verified and Selected</a></div>
+			<div class="col-md-4"><a href="{% url 'student:not_select_student' serial=student.serial %}" class="btn btn-warning d-block">Verified and Not Selected</a></div>
 			<div class="col-md-4"><a href="{% url 'student:edit_student' serial=student.serial %}" class="btn btn-primary d-block">Edit</a></div>
 		</div>
 	</div>

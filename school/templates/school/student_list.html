@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load custom_filters %}
+{% block style %}
+    <style>
+        table th{
+            vertical-align: middle !important;
+            line-height: 1;
+        }
+    </style>
+{% endblock %}
 {% block content %}
 <section class="bg-info" style="min-height: calc(100vh - 111px);">
     <div class="container-fluid">
@@ -15,8 +23,8 @@
                             <th scope="col">Male</th>
                             <th scope="col">Female</th>
                             <th scope="col">Total</th>
-                            <th scope="col">Selected</th>
-                            <th scope="col">Not Selected</th>
+                            <th scope="col">Verified & Selected<br><small>(For Issuance of Registration)</small></th>
+                            <th scope="col">Verified & Not Selected<br><small>(For Issuance of Registration)</small></th>
                             <th scope="col">Pending</th>
                         </tr>
                     </thead>
@@ -46,7 +54,7 @@
                                 <th scope="col">Date of Birth</th>
                                 <th scope="col">1st Language</th>
                                 <th scope="col">2nd Language</th>
-                                <th scope="col">Is Selected</th>
+                                <th scope="col">Is Selected<br><small>(For Issuance of Registration)</small></th>
                             </tr>
                         </thead>
                         <tbody>

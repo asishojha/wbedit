@@ -6,6 +6,8 @@ from .models import Student, SupportDocument
 from .forms import StudentForm, SupportDocumentForm
 from .decorators import can_edit_data
 
+s = None
+
 @can_edit_data
 def student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
@@ -53,13 +55,14 @@ def edit_student(request, serial):
 		if form.is_valid():
 			edited = form.cleaned_data.get('edited')
 			form.cleaned_data.pop('edited')
+			global s 
 			s = form.save(commit=False)
 			dob = form.cleaned_data.get('dob').strftime('%d%m%y')
 			s.dob = dob
-			s.save()
 			if edited == '1':
 				messages.warning(request, f"Information for student {student.name} has been edited. Please mention the supporting document for the valid change.")
 				return redirect('student:support_document', serial=serial)
+			s.save()
 			messages.success(request, f"Information for student {student.name} has been updated. Please SELECT / NOT SELECT the student.")
 			return redirect(student.get_absolute_url())
 
@@ -82,8 +85,11 @@ def support_document(request, serial):
 			document.student = student
 			document.save()
 
-			student.edited = True
-			student.save()
+			global s
+			s.edited = True
+			s.save()
+
+			s = None
 			messages.success(request, f"Information for student {student.name} has been updated. Please SELECT / NOT SELECT the student.")
 			return redirect(student.get_absolute_url())
 	context = {

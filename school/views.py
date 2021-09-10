@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.contrib.auth.models import Permission, User
+from django.contrib.contenttypes.models import ContentType
 from .models import Profile
-from .forms import UsersLoginForm, ProfileForm
+from .forms import UsersLoginForm, ProfileForm, PasswordResetForm
 from student.models import Student
 
 import weasyprint
@@ -23,13 +25,16 @@ def login_view(request):
 		password = form.cleaned_data.get("password")
 		user = authenticate(username = username, password = password)
 		login(request, user)
-		# return redirect('school:student_list')
-		# if user.has_perm('marks.can_update'):
-			# return redirect('marks:students')
-		# else:
+		
+		ct = ContentType.objects.get_for_model(User)
+		permission_change_password, created_change_password = Permission.objects.get_or_create(codename='can_change_password', name='Can change the password', content_type=ct)
+
+
 		try:
-			profile = request.user.profile
-			return redirect('school:student_list')
+			profile = user.profile
+			if not user.has_perm('auth.can_change_password'):
+				return redirect('school:student_list')
+			return redirect('school:reset_password')
 		except Profile.DoesNotExist:
 			return redirect("school:profile")
 	return render(request, "accounts/form.html", {
@@ -89,8 +94,11 @@ def submit_final_data(request):
 
 	if request.method == 'POST':
 		agree = request.POST.get('agree')
+		verification_name = request.POST.get('verification_name')
+
 		if agree:
 			profile.complete = True
+			profile.verification_name = verification_name
 			profile.save()
 			messages.success(request, 'Congratulations! All your data has been finally submitted. Your can now download the report generated.')
 			return redirect('school:student_list')
@@ -119,10 +127,37 @@ def profile(request):
 			profile.save()
 			user.email = profile.headmaster_email
 			user.save()
-			# permission = Permission.objects.get(codename='can_change_password')
-			# user.user_permissions.add(permission)
-			return redirect('school:student_list')
+			permission = Permission.objects.get(codename='can_change_password')
+			user.user_permissions.add(permission)
+			return redirect('school:reset_password')
 	context = {
 		'form': form
 	}
 	return render(request, 'school/profile.html', context)
+
+def reset_password(request):
+	if not request.user.has_perm('auth.can_change_password'):
+		try:
+			profile = request.user.profile
+			return redirect('school:student_list')
+		except Profile.DoesNotExist:
+			return redirect('school:profile')
+
+	form = PasswordResetForm(request.user)
+	password_change_permission = Permission.objects.get(codename='can_change_password')
+	if request.method == 'POST':
+		form = PasswordResetForm(request.user, request.POST)
+		if form.is_valid():
+			password = form.save()
+			update_session_auth_hash(request, password)
+			request.user.user_permissions.remove(password_change_permission)
+
+			request.user.profile.password_changed = True
+			request.user.profile.save()
+
+			messages.success(request, 'Password Changed Successfully!')
+			return redirect('school:student_list')
+	context = {
+		'form': form
+	}
+	return render(request, 'accounts/reset-password.html', context)

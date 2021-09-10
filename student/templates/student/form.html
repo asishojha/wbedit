@@ -57,10 +57,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 	$(document).ready(function(){
-		$originalForm = $('form').serialize();
+		$originalForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
+		console.log('original form', $originalForm);
 		$edited = $('#id_edited');
 		$('form').submit(function(e){
-			if ($('form').serialize() !== $originalForm){
+			$newForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
+			// console.log('new form', $newForm);
+			if ($newForm !== $originalForm){
 				$edited.val("1");
 			}
 

@@ -24,6 +24,14 @@
         </div>
         <form method="post" action=".">
         	{% csrf_token %}
+        	<div class="form-group">
+        		<div class="row">
+	        		<div class="col-md-6">
+			        	<label class="font-weight-bold" for="id_verification_name">Verification Name:</label>
+			        	<input class="form-control" name="verification_name" id="id_verification_name" required="" placeholder="Please enter the name of the person who verified the data." />
+			        </div>
+			    </div>
+	        </div>
         	<input type="checkbox" name="agree" id="id_agree" />
         	<label for="id_agree">I agree to provide Admission Register and/or Birth Certificate and/or Caste Certificate (Original and/or Photocopy) whenever the Board asks for.</label>
         	<br><button type="submit" class="btn btn-success">Submit</button>

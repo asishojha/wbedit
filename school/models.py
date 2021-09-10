@@ -11,6 +11,7 @@ class Profile(models.Model):
 	modified_on = models.DateTimeField(auto_now=True)
 	complete = models.BooleanField(default=False)
 	password_changed = models.BooleanField(default=False)
+	verification_name = models.CharField(max_length=50, null=True)
 
 	def __str__(self):
 		return self.school.username

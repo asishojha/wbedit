@@ -26,11 +26,6 @@ SUBJECT_SHORT_CODE = {
 	"21":"E(SL)",
 	"22":"B(SL)",
 	"23":"N(SL)",
-	"24":"H",
-	"25":"G",
-	"26":"M",
-	"27":"PSC",
-	"28":"LSC",
 	"31":"B(A)",
 	"32":"E",
 	"33":"HIN(A)",
@@ -39,19 +34,8 @@ SUBJECT_SHORT_CODE = {
 	"36":"B(B)",
 	"37":"S",
 	"38":"PA",
-	"39":"P",
-	"40":"A",
-	"41":"LT",
-	"42":"GR",
 	"43":"TB C",
-	"44":"FR",
-	"45":"GER",
-	"46":"RUSS",
 	"47":"HIN(B)",
-	"48":"PORT",
-	"49":"SP",
-	"50":"IT",
-	"51":"AR C",
 	"52":"M",
 	"53":"BD",
 	"54":"PH",
@@ -128,22 +112,8 @@ OPTIONAL_ELECTIVE_SUBJECTS_DICT = {
 	"35":"URDU",
 	"36":"BENGALI(B LEVEL)",
 	"37":"SANSKRIT",
-	"38":"PALI",
-	"39":"PERSIAN",
-	"40":"ARABIC",
-	"41":"LATIN",
-	"42":"GREEK",
-	"43":"CLASSICAL TIBETAN",
-	"44":"FRENCH",
-	"45":"GERMAN",
-	"46":"RUSSIAN",
 	"47":"HINDI(B LEVEL)",
-	"48":"PORTUGUESE",
-	"49":"SPANISH",
-	"50":"ITALIAN",
-	"51":"CLASSICAL ARMENIAN",
 	"52":"MATHEMATICS",
-	"53":"BUILDING MATERIAL & CONST",
 	"54":"PHYSICS",
 	"55":"CHEMISTRY",
 	"56":"BIOLOGY",
@@ -199,6 +169,7 @@ RELIGION_DICT = {
 }
 
 CASTE_DICT = {
+	"": "GENERAL",
 	"1": "SCHEDULED CASTE",
 	"2": "SCHEDULED TRIBES",
 	"3": "OTHER BACKWARD CLASSES"
@@ -266,7 +237,6 @@ class Student(models.Model):
 		return ""
 
 	def get_guardian_name(self):
-
 		if self.g_indicator == 'M':
 			if self.g_name == '':
 				return self.m_name
@@ -278,6 +248,8 @@ class Student(models.Model):
 			if self.g_name == self.m_name:
 				return self.m_name
 			elif self.g_name == self.f_name:
+				return self.f_name
+			elif self.g_name == '':
 				return self.f_name
 			else:
 				return self.g_name

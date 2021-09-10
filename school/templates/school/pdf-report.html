@@ -61,14 +61,28 @@
 	 		background-color: rgba(0, 0, 0, 0.3);
 	 	}
 	 	.declaration{
-	 		margin-top: 10px;
+	 		text-align: left !important;
+	 		padding-bottom: 50px;
 	 	}
 	 	p.school-info{
 	 		margin-top: 50px;
 	 	}
 	 	.bottom-box{
 	 		text-align: right;
-	 		margin-top: 100px;
+	 		padding-top: 50px;
+	 	}
+	 	.bottom-box p{
+	 		margin: 0;
+	 	}
+	 	.verified_declaration{
+	 		border-bottom: 1px solid #000;
+	 		padding-bottom: 2px;
+	 		font-weight: bold;
+	 		display: inline-block;
+	 		font-size: 18px;
+	 	}
+	 	.declaration_line{
+	 		padding-top: 10px;
 	 	}
 	</style>
 </head>
@@ -112,10 +126,11 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	<div class="declaration">
-		<p><strong>I, as a Headmaster/Head Clerk, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2020 prvoided by the West Bengal Board of Secondary Education is checked by the school.</strong></p>
-	</div>
 	<div class="bottom-box">
+		<div class="declaration">
+			<p class="verified_declaration">*Entire data has been verified by {{ school.profile.verification_name }}.</p>
+			<p class="declaration_line"><strong>I, as a Headmaster/Head Clerk, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2020 prvoided by the West Bengal Board of Secondary Education is checked by the school.</strong></p>
+		</div>
 		<p>___________________________________________________________</p>
 		<p><strong>Signature of The Head of The Institution along with the seal</strong></p>
 	</div>
