@@ -9,87 +9,116 @@
     	color: red;
     	font-weight: bold;
     	text-shadow: 0 0 black;
-    	letter-spacing: 0.34px;
-    	font-size: 15px;
+    	letter-spacing: 0.1px;
+    	font-size: 18px;
+    	background-color: white;
+    	padding-left: 5px;
+    }
+    .support-document-form{
+        display: none;
     }
 </style>
 {% endblock %}
 {% load i18n %}
 {% block content %}
 <section class="student bg-info pt-4" style="min-height: calc(100vh - 111px);">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				{{ form.non_field_errors }}
-				<div class="row text-left">
-				{% for f in form %}
-				{% if f.errors %}
-				<div class="col-6">
-				<p class="pl-4" style="color:red;">{{ f.label }}</p>
-				{{ f.errors }}
-				</div>
-				{% endif %}
-				{% endfor %}
-				</div>
-				<form method="POST" action=".">
-					{% csrf_token %}
-					<input type="hidden" name="school" value="{{ student.school.id }}" />
-					<input type="hidden" name="edited" value="0" id="id_edited" />
-					<div class="row">
-						{% for field in form %}{% if field.name != 'edited' %}
-						<div class="{% if forloop.counter > 4 and forloop.counter < 9 %}col-md-3{% elif forloop.counter > 8 %}col-md-4{% elif field.name == 'document' %}col-md-12{% else %}col-md-6{% endif %}">
-							<label for="{{ field.auto_id }}">{{ field.label }}</label>
-							{{ field }}
-							{% if field.help_text %}<p class="help_text">{{ field.help_text }}</p>{% endif %}
-						</div>
-						{% endif %}{% endfor %}
-						<div class="col-12">
-							<button class="btn btn-warning btn-block" type="submit">{% trans "Submit" %}</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                {{ form.non_field_errors }}
+                <div class="row text-left">
+                    {% for f in form %}
+                    {% if f.errors %}
+                    <div class="col-6">
+                        <p class="pl-4" style="color:red;">{{ f.label }}</p>
+                        {{ f.errors }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <form method="POST" action=".">
+                    {% csrf_token %}
+                    <div class="edit-form">
+                        <input type="hidden" name="school" value="{{ student.school.id }}" />
+                        <input type="hidden" name="edited" value="0" id="id_edited" />
+                        <div class="row">
+                            {% for field in form %}{% if field.name != 'edited' and field.name != 'document' %}
+                            <div class="{% if forloop.counter > 4 and forloop.counter < 9 %}col-md-3{% elif forloop.counter > 8 %}col-md-4{% elif field.name == 'document' %}col-md-12{% else %}col-md-6{% endif %}">
+                                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.help_text %}<p class="help_text">{{ field.help_text }}</p>{% endif %}
+                            </div>
+                            {% endif %}{% endfor %}
+                            <div class="col-12">
+                                <button class="btn btn-warning btn-block edit-form-button" type="button">{% trans "Submit" %}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="support-document-form">
+                        <div class="row">
+                            {% for field in form %}
+                            {% if field.name == 'document' %}
+                            <div class="col-md-12">
+                                {% if field.help_text %}<p class="help_text">{{ field.help_text }}</p>{% endif %}
+                                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <div class="col-12">
+                                <button class="btn btn-warning btn-block" type="submit">{% trans "Submit" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>
 {% endblock %}
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-	$(document).ready(function(){
-		$originalForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
-		console.log('original form', $originalForm);
-		$edited = $('#id_edited');
-		$('form').submit(function(e){
-			$newForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
-			// console.log('new form', $newForm);
-			if ($newForm !== $originalForm){
-				$edited.val("1");
-			}
+$(document).ready(function() {
+    $originalForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
+    $edited = $('#id_edited');
+    $editForm = $(".edit-form");
+    $supportDocumentForm = $(".support-document-form");
+    $supportDocument = $('#id_document');
 
-			$(':disabled').each(function(e){
-				$(this).removeAttr('disabled')
-			});
-		});
-	});
+    $('.edit-form-button').click(function() {
+        $newForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
 
-	window.addEventListener( "pageshow", function ( event ) {
-	var historyTraversal = event.persisted || 
-							( typeof window.performance != "undefined" && 
-							window.performance.navigation.type === 2 );
-	if ( historyTraversal ) {
-			// Handle page restore.
-			window.location.reload();
-		}
-	});
+        if ($newForm !== $originalForm) {
+            $edited.val("1");
+	        $editForm.hide();
+            $supportDocument.attr('required', '');
+            $supportDocumentForm.show();
+        } else {
+            $('form').submit();
+        };
 
-	$('input').on('keypress', function (event) {
-	    var regex = new RegExp("^[a-zA-Z]+$");
-	    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-	    if (!regex.test(key)) {
-	       event.preventDefault();
-	       return false;
-	    }
-	});
+    });
+});
+
+window.addEventListener("pageshow", function(event) {
+    var historyTraversal = event.persisted ||
+        (typeof window.performance != "undefined" &&
+            window.performance.navigation.type === 2);
+    if (historyTraversal) {
+        // Handle page restore.
+        window.location.reload();
+    }
+});
+
+$('input').on('keypress', function(event) {
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+    }
+});
 </script>
 {% endblock %}
