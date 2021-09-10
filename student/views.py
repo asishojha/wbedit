@@ -67,15 +67,11 @@ def edit_student(request, serial):
 			s.dob = dob
 			if edited == '1':
 				s.edited = True
+
+				s_document, s_document_created = SupportDocument.objects.get_or_create(student=student)
+				s_document.document = support_document
+				s_document.save()
 			s.save()
-
-			s_document, s_document_created = SupportDocument.objects.get_or_create(student=student)
-			if s_document_created:
-				s_document = s_document_created
-			s_document.document = support_document
-			s_document.save()
-			
-
 			messages.success(request, f"Information for student {student.name} has been updated. Please SELECT / NOT SELECT the student.")
 			return redirect(student.get_absolute_url())
 
