@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'wbpro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'WBEDIT',
+        'NAME': 'wbedit',
         'USER': 'asish',
         'PASSWORD': 'netcom12',
         'HOST': '20.198.101.155',
