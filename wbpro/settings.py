@@ -131,9 +131,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static', ]
+AZURE_ACCOUNT_NAME = 'idmscdn'
+AZURE_STORAGE_KEY = 'TS3fLiV/ZQ5HU6+kOdFJFs9YT2CFbRk+/QvLgcO90BuCTBHOVCYeWtFZzvTKNoyw9Nh3e8Kjlt25dpMGPzuFLQ=='
+AZURE_STATIC_CONTAINER = 'idmscdn'
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.azureedge.net'
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_STATIC_CONTAINER}/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+STATICFILES_STORAGE  = 'wbpro.storage.backend.AzureStaticStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
