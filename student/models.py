@@ -179,7 +179,7 @@ class Student(models.Model):
 	sex = models.CharField(max_length=1, verbose_name='Gender')
 	religion = models.CharField(max_length=1)
 	caste = models.CharField(max_length=1, null=True, blank=True)
-	dob = models.CharField(max_length=10, verbose_name='Date of Birth')
+	dob = models.CharField(max_length=10, verbose_name='Date of Birth', null=True, blank=True)
 	fl = models.CharField(max_length=2, verbose_name='First Language')
 	sl = models.CharField(max_length=2, verbose_name='Second Language')
 	opt = models.CharField(max_length=2, null=True, blank=True, verbose_name='Optional Elective')

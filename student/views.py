@@ -45,8 +45,10 @@ def edit_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	student_dict = model_to_dict(student, fields=[field.name for field in student._meta.fields])
 	student_dict['g_name'] = student.get_guardian_name()
-	student_dict['dob'] = datetime.strptime(student_dict['dob'], '%d%m%y')
-
+	try:
+		student_dict['dob'] = datetime.strptime(student_dict['dob'], '%d%m%y') # may cause error if not found. needs attention!
+	except (ValueError, KeyError, TypeError):
+		student_dict['dob'] = ''
 	try:
 		document = SupportDocument.objects.get(student=student).document
 	except SupportDocument.DoesNotExist:
@@ -63,7 +65,10 @@ def edit_student(request, serial):
 			edited = form.cleaned_data.get('edited')
 			form.cleaned_data.pop('edited')
 			s = form.save(commit=False)
-			dob = form.cleaned_data.get('dob').strftime('%d%m%y')
+			try:
+				dob = form.cleaned_data.get('dob').strftime('%d%m%y')
+			except AttributeError:
+				dob = None
 			s.dob = dob
 			if edited == '1':
 				s.edited = True

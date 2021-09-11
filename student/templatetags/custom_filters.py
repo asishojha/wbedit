@@ -5,7 +5,11 @@ register = template.Library()
 
 @register.filter(name='date_format')
 def date_format(value):
-	return datetime.strptime(value, '%d%m%y')
+	try:
+		date = datetime.strptime(value, '%d%m%y')
+		return date
+	except (ValueError, KeyError, TypeError):
+		return ''
 
 @register.filter(name='index_format')
 def index_format(value):

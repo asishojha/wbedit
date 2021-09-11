@@ -101,7 +101,7 @@ class StudentForm(forms.ModelForm):
 	caste = forms.ChoiceField(choices=CASTE_CHOICES, required=False)
 	religion = forms.ChoiceField(choices=RELIGION_CHOICES)
 	sex = forms.ChoiceField(choices=SEX_CHOICES, label='Gender')
-	dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='Date of Birth')
+	dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='Date of Birth', required=False)
 	edited = forms.CharField(widget=forms.HiddenInput)
 	document = forms.CharField(max_length=50, help_text='Please mention the supporting document on basis of which the change was made. Ex: admission register / birth certificate / etc', required=False)
 
@@ -126,7 +126,7 @@ class StudentForm(forms.ModelForm):
 				_('Invalid FL and SL combination'),
 				code='invalid'
 				)
-		if fl == '03' and sl != '22':
+		if fl == '03' and sl == '21':
 			raise forms.ValidationError(
 				_('Invalid FL and SL combination'),
 				code='invalid'
