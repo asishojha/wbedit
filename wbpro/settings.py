@@ -131,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-AZURE_ACCOUNT_NAME = 'idmscdn'
+AZURE_ACCOUNT_NAME = 'idmscdnsa'
 AZURE_STORAGE_KEY = 'TS3fLiV/ZQ5HU6+kOdFJFs9YT2CFbRk+/QvLgcO90BuCTBHOVCYeWtFZzvTKNoyw9Nh3e8Kjlt25dpMGPzuFLQ=='
 AZURE_STATIC_CONTAINER = 'idmscdn'
 AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.azureedge.net'
