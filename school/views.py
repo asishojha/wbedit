@@ -171,3 +171,6 @@ def reset_password(request):
 		'form': form
 	}
 	return render(request, 'accounts/reset-password.html', context)
+
+def instructions(request):
+	return render(request, 'school/instructions.html')

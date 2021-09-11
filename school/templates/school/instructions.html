@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block meta %}<title>Instructions</title>{% endblock %}
+{% block style %}
+<style type="text/css">
+.base-section {
+    height: 0;
+    min-height: 0;
+}
+
+span.border-line {
+    display: block;
+    width: 600px;
+    height: auto;
+    padding: 5px 0;
+    background-color: red;
+    z-index: 999;
+    color: #fff;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.special-instructions{
+	padding: 5px 0;
+	margin-top: 15px;
+}
+.special-instructions ol{
+	padding-left: 25px;
+}
+.special-instructions ol li{
+	font-size: 17px;
+	margin: 5px 0;
+	font-weight: bold;
+}
+</style>
+{% endblock %}
+{% block content %}
+<section class="pb-5" style="margin-top: 76px;position: relative;">
+	<div class="container">
+	    <h2 class="pt-3 text-center">Data Verification Portal Instructions</h2>
+	    <span class="border-line top mt-3 mx-auto">
+			***Special Instructions***
+		</span>
+		<div class="special-instructions bg-info">
+			<ol>
+				<li>Selection of Students for issuance of Registration Certificates by pressing “Verified and Selected” button only can be done for the students who have got admission in Class X.</li>
+				<li>Please check twice whether the data of the students are correct or not. If some error found you can edit the data by pressing “Edit” button.</li>
+				<li>Please press “Verified and Not Selected” button for those who have not admitted in class – X in the session 2021.</li>
+				<li>Please do not put any punctuation mark and any honorific title such as Sri, Smt.,  Kumari, Mst.,Musammator any special character in any field provided to you. If any discrepancy found in the data, Board has every right to stop issuance of Registration Certificate of that particular Candidate(s).</li>
+				<li>Please check twice before “Submit Final Data”. After submitting of the final data of your school, you are not eligible to edit any data of any student.</li>
+				<li>You have to download the edited data of the students of your school.</li>
+				<li>Once the pdf copy of your school’s data generated, a copy of it shall be signed by the candidate or parent of the candidate and to be submitted to the Board as and when asked.</li>
+				<li>An “Edit List” will be provided to every Institution at the time of delivery of Registration Certificates for “Verified and Not Selected” Candidates with reason of non-issuance. </li>
+			</ol>
+		</div>
+	</div>
+    <div class="container pt-5 bg-white" style="position: relative;">
+    	<span class="border-line top mt-3 mx-auto">
+			***Instructions for Online Verification of Data***
+		</span>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <h5>Step 1</h5>
+                <p>Go to the URL: <a target="_blank" href="https://www.wbbsedata.com">https://www.wbbsedata.com</a></p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/1.png' %}" class="img-fluid" alt="" />
+            </div>
+        </div>
+        <hr>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/2.png' %}" class="img-fluid" alt="" />
+            </div>
+            <div class="col-md-6">
+                <h5>Step 2</h5>
+                <p>Now click on login and then you get the following page:</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <h5>Step 3</h5>
+                <p>For the 1st time enter your school index (in CAPITAL and without any special character eg. “G5123” as
+                    your username and‘password’ all in small letters as your password. After this you get a profile form only
+                    for the first time where in you fill your name, email and phone number. Then you are sent to a page to
+                    change your password given below and this is only for the 1st time login. After this process whenever
+                    you login, just enter the school index as username and the changed password or the new password as
+                    your password.</p>
+                <p><strong>User profile page : (only for the 1st time login )</strong></p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/3.png' %}" class="img-fluid" alt="" />
+            </div>
+        </div>
+        <hr>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/4.png' %}" class="img-fluid" alt="" />
+            </div>
+            <div class="col-md-6">
+                <p><strong>Change password : (only for the 1st time login )</strong></p>
+            </div>
+        </div>
+        <hr>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <h5>Step 4</h5>
+                <p>Once the password is changed then you are sent in to your schooldashboard where in you get your
+                    school index and name. Belowthat is a table which tells the figure of Male Candidates, Female
+                    Candidates, Total Candidates, Total students who are selected for the issuance of registration cards and
+                    total students who are not selected for the issuance of registration cards. Now on top of the students
+                    table you see a button saying “StartEditing data”. Whenever you click this button it takes you tothe first
+                    candidate’s detail in your candidate list. Thescreen is given below for the students list:</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/5.png' %}" class="img-fluid" alt="" />
+            </div>
+        </div>
+        <hr>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/6.png' %}" class="img-fluid" alt="" />
+            </div>
+            <div class="col-md-6">
+                <h5>Step 5</h5>
+                <p>Now clicking the “Start Editing Data” Button, get the following screen: </p>
+                <p>Go through the details of the candidate and if no changes are required and the candidate is selected for
+                    the issuance of Registration card, then click on “Verified &amp;Selected” else click on “Verified &amp;Not
+                    Selected”. In case if any changes is required to be made in the data then click on the edit button and the
+                    details open in an editable format as given below.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <h5>Step 6 (Editing Phase)</h5>
+                <p>Make the changes where ever required and press the submit button. For the fields given below :</p>
+                <ol>
+                	<li>NAME</li>
+                	<li>FATHER'S NAME</li>
+                	<li>MOTHER'S NAME</li>
+                	<li>GUARDIAN NAME</li>
+                	<li>CAST</li>
+                	<li>DATE OF BIRTH</li>
+                </ol>
+                <p>If any changes are made in the above mentioned filled then a supporting document has to be mentioned as the Admission Register, Cast Certificate, Birth Certificate etc in the page that appears on pressing the submit button as given below :</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/7.png' %}" class="img-fluid" alt="" />
+            </div>
+        </div>
+        <hr>
+        <div class="row my-3">
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/8.png' %}" class="img-fluid" alt="" />
+            </div>
+            <div class="col-md-6">
+                <h5>Step 7</h5>
+                <p>Once all the candidates data has been marked as selected and not selected , you go to the school dashboard and get a new button of “SUBMIT FINAL DATA” as given below:</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+            	<h5>Step 8</h5>
+                <p>Once you click in the submit final data button , a declaration page occurs as given below:</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/9.png' %}" class="img-fluid" alt="" />
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/10.png' %}" class="img-fluid" alt="" />
+            </div>
+            <div class="col-md-6">
+            	<h5>Step 9</h5>
+                <p>On accepting the terms, enter the name of the Verifier of the data and submit. A final data list after verification is generated in pdf format which can be downloaded  by pressing download report on the bottom of the page and printed. A Sample is given below: </p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+            	<h5>Step 10</h5>
+                <p>The pdf Report is given below:</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'img/instructions/11.png' %}" class="img-fluid" alt="" />
+            </div>
+        </div>
+        <hr>
+    </div>
+</section>
+{% endblock %}
