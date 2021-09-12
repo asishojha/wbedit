@@ -11,19 +11,22 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2w_q57^b3i0*!u$8^*ytg#bs9m965-s9p3$g)2m%+(7$+k-ax7'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,10 +89,10 @@ WSGI_APPLICATION = 'wbpro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'wbedit',
-        'USER': 'asish',
-        'PASSWORD': 'netcom12',
-        'HOST': '20.198.101.155',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
+        'HOST': env('DATABASE_HOST'),
         'PORT': '5432',
     }
 }
@@ -131,9 +134,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 # STATIC_URL = '/static/'
-AZURE_ACCOUNT_NAME = 'idmscdn'
-AZURE_STORAGE_KEY = 'TS3fLiV/ZQ5HU6+kOdFJFs9YT2CFbRk+/QvLgcO90BuCTBHOVCYeWtFZzvTKNoyw9Nh3e8Kjlt25dpMGPzuFLQ=='
-AZURE_STATIC_CONTAINER = 'idmscdn'
+AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME')
+AZURE_STORAGE_KEY = env('AZURE_STORAGE_KEY')
+AZURE_STATIC_CONTAINER = env('AZURE_STATIC_CONTAINER')
 AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.azureedge.net'
 STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_STATIC_CONTAINER}/'
 STATICFILES_DIRS = [
