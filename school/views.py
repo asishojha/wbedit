@@ -89,6 +89,7 @@ def student_list(request):
 	}
 	return render(request, 'school/student_list.html', context)
 
+@login_required
 def submit_final_data(request):
 	school = request.user
 	profile = school.profile
@@ -114,6 +115,7 @@ def submit_final_data(request):
 			return redirect('school:student_list')
 	return render(request, 'school/submit-data.html')
 
+@login_required
 def pdf_report(request):
 	html = render_to_string('school/pdf-report.html', {'school': request.user})
 	response = HttpResponse(content_type='application/pdf')
@@ -121,6 +123,7 @@ def pdf_report(request):
 	weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(response)
 	return response
 
+@login_required
 def profile(request):
 	user = request.user
 	try:
@@ -145,6 +148,7 @@ def profile(request):
 	}
 	return render(request, 'school/profile.html', context)
 
+@login_required
 def reset_password(request):
 	if not request.user.has_perm('auth.can_change_password'):
 		try:

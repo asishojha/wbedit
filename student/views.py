@@ -1,13 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from datetime import datetime
 from .models import Student, SupportDocument
 from .forms import StudentForm
 from .decorators import can_edit_data
+from school.models import Profile
 
+@login_required
 @can_edit_data
 def student(request, serial):
+	try:
+		profile = request.user.profile
+		pass
+	except Profile.DoesNotExist:
+		return redirect('school:profile')
+
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	blank_warning = []
 
@@ -21,10 +30,6 @@ def student(request, serial):
 		if (student.m_name == '' or not student.m_name) and (student.f_name == '' or not student.f_name):
 			if not student.g_name or student.g_name == '':
 				blank_warning.append('Guardian\'s Name is BLANK')
-
-
-
-
 
 	if not student.dob or student.dob == '':
 		blank_warning.append('Date of Birth is BLANK')
@@ -45,8 +50,15 @@ def student(request, serial):
 	}
 	return render(request, 'student/student.html', context)
 
+@login_required
 @can_edit_data
 def select_student(request, serial):
+	try:
+		profile = request.user.profile
+		pass
+	except Profile.DoesNotExist:
+		return redirect('school:profile')
+
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	dob = student.dob
 
@@ -79,8 +91,15 @@ def select_student(request, serial):
 	except Exception:
 		return redirect('school:student_list')
 
+@login_required
 @can_edit_data
 def not_select_student(request, serial):
+	try:
+		profile = request.user.profile
+		pass
+	except Profile.DoesNotExist:
+		return redirect('school:profile')
+
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	extra_warning = ''
 
@@ -98,8 +117,15 @@ def not_select_student(request, serial):
 	except Exception:
 		return redirect('school:student_list')
 
+@login_required
 @can_edit_data
 def edit_student(request, serial):
+	try:
+		profile = request.user.profile
+		pass
+	except Profile.DoesNotExist:
+		return redirect('school:profile')
+		
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
 	student_dict = model_to_dict(student, fields=[field.name for field in student._meta.fields])
 	student_dict['g_name'] = student.get_guardian_name()
@@ -142,23 +168,3 @@ def edit_student(request, serial):
 		'form': form
 	}
 	return render(request, 'student/form.html', context)
-
-# def support_document(request, serial):
-# 	student = Student.objects.filter(school=request.user, serial=serial)[0]
-# 	try:
-# 		support_document = SupportDocument.objects.get(student=student)
-# 	except SupportDocument.DoesNotExist:
-# 		support_document = None
-# 	form = SupportDocumentForm(instance=support_document)
-# 	if request.method == 'POST':
-# 		form = SupportDocumentForm(request.POST, instance=support_document)
-# 		if form.is_valid():
-# 			document = form.save(commit=False)
-# 			document.student = student
-# 			document.save()
-# 			messages.success(request, f"Information for student {student.name} has been updated. Please SELECT / NOT SELECT the student.")
-# 			return redirect(student.get_absolute_url())
-# 	context = {
-# 		'form': form
-# 	}
-# 	return render(request, 'student/form.html', context)
