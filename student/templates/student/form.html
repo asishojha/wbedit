@@ -81,6 +81,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(document).ready(function() {
+    $name = $('#id_name').val();
     $originalForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
     $edited = $('#id_edited');
     $editForm = $(".edit-form");
@@ -89,6 +90,10 @@ $(document).ready(function() {
 
     $('.edit-form-button').click(function() {
         $newForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
+
+        if ($name !== $('#id_name').val()){
+            $('#id_name').removeAttr("required");
+        };
 
         if ($newForm !== $originalForm) {
             $edited.val("1");

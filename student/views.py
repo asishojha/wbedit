@@ -9,20 +9,72 @@ from .decorators import can_edit_data
 @can_edit_data
 def student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
+	blank_warning = []
+
+	if not student.f_name or student.f_name == '':
+		blank_warning.append('Father\'s Name is BLANK')
+
+	if not student.m_name or student.m_name == '':
+		blank_warning.append('Mother\'s Name is BLANK')
+
+	if (student.f_name == '' or student.f_name is None) and (student.g_indicator == '' or student.g_indicator is None):
+		if (student.m_name == '' or not student.m_name) and (student.f_name == '' or not student.f_name):
+			if not student.g_name or student.g_name == '':
+				blank_warning.append('Guardian\'s Name is BLANK')
+
+
+
+
+
+	if not student.dob or student.dob == '':
+		blank_warning.append('Date of Birth is BLANK')
+
+	if student.name == student.f_name:
+		blank_warning.append('Candidate Name and Father\'s Name are SAME')
+
+	if student.name == student.m_name:
+		blank_warning.append('Candidate Name and Mother\'s Name are SAME')
+
+	if (student.m_name == student.f_name) and (student.m_name or student.f_name):
+		blank_warning.append('Mother\'s Name and Father\'s Name are SAME')
+
 	context = {
-		'student': student
+		'student': student,
+		'blank_warning': blank_warning
+
 	}
 	return render(request, 'student/student.html', context)
 
 @can_edit_data
 def select_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
+	dob = student.dob
+
+	extra_warning = ''
+
+	if (not student.f_name and not student.m_name and student.g_name) or (student.f_name == '' and student.m_name == '' and student.g_name):
+		extra_warning = 'Warning! Father\'s Name and Mother\'s Name are blank. '
+
+
+	if (not student.f_name and not student.m_name and not student.g_name) or (student.f_name == '' and student.m_name == '' and student.g_name == ''):
+		messages.error(request, f'Student with \"Blank Father\'s Name, Mother\'s Name or Guardian\'s Name\",  {student.name} can not be selected.')
+		return redirect(student.get_absolute_url())
+
+
+	elif not dob or dob == '':
+		messages.error(request, f'Student with \"Blank Date of Birth\",  {student.name} can not be selected.')
+		return redirect(student.get_absolute_url())
+
+	elif datetime.strptime(dob, '%d%m%y') and datetime.strptime(dob, '%d%m%y') > datetime.strptime('311007', '%d%m%y'):
+		messages.error(request, f'Under-Age Student,  {student.name} can not be selected.')
+		return redirect(student.get_absolute_url())
+
 	student.status = '1'
 	student.save()
 
 	try:
 		next_student = Student.objects.filter(school=request.user, serial__gt=serial).first()
-		messages.success(request, f'Student {student.name} has been marked as Selected')
+		messages.success(request, f'{extra_warning}Student {student.name} has been marked as Selected.')
 		return redirect(next_student.get_absolute_url())
 	except Exception:
 		return redirect('school:student_list')
@@ -30,12 +82,18 @@ def select_student(request, serial):
 @can_edit_data
 def not_select_student(request, serial):
 	student = Student.objects.filter(school=request.user, serial=serial)[0]
+	extra_warning = ''
+
+	if (not student.f_name and not student.m_name and student.g_name) or (student.f_name == '' and student.m_name == '' and student.g_name):
+		extra_warning = 'Warning! Father\'s Name and Mother\'s Name are blank. '
+
 	student.status = '2'
 	student.save()
 
+
 	try:
 		next_student = Student.objects.filter(school=request.user, serial__gt=serial).first()
-		messages.warning(request, f'Student {student.name} has been marked as NOT Selected')
+		messages.warning(request, f'{extra_warning}Student {student.name} has been marked as NOT Selected')
 		return redirect(next_student.get_absolute_url())
 	except Exception:
 		return redirect('school:student_list')
@@ -46,7 +104,7 @@ def edit_student(request, serial):
 	student_dict = model_to_dict(student, fields=[field.name for field in student._meta.fields])
 	student_dict['g_name'] = student.get_guardian_name()
 	try:
-		student_dict['dob'] = datetime.strptime(student_dict['dob'], '%d%m%y') # may cause error if not found. needs attention!
+		student_dict['dob'] = datetime.strptime(student_dict['dob'], '%d%m%y')
 	except (ValueError, KeyError, TypeError):
 		student_dict['dob'] = ''
 	try:

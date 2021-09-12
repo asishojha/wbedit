@@ -251,9 +251,20 @@ class Student(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.name = self.name.upper()
-		self.f_name = self.f_name.upper()
-		self.m_name = self.m_name.upper()
-		self.g_name = self.g_name.upper()
+		try:
+			self.f_name = self.f_name.upper()
+		except Exception:
+			pass
+
+		try:
+			self.m_name = self.m_name.upper()
+		except Exception:
+			pass
+
+		try:
+			self.g_name = self.g_name.upper()
+		except Exception:
+			pass
 		super(Student, self).save(*args, **kwargs)
 
 class SupportDocument(models.Model):

@@ -1,57 +1,112 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load custom_filters %}
-
+{% block style %}
+<style>
+	.warning-box li{
+		font-size: 15px;
+		font-weight: bold;
+		letter-spacing: 0.5px;
+	}
+</style>
+{% endblock %}
 {% block content %}
 <section class="py-2">
-		<div class="container">
-		<h2>Student Details</h2>
-		<div class="p-2" style="background-color: #ededed;">
-			<div class="row">
-				<div class="col-md-3"><p><strong>Student Name</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.name }}</p></div>
-			
-				<div class="col-md-3"><p><strong>Father's Name</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.f_name }}</p></div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><p><strong>Mother' Name</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.m_name }}</p></div>
-			
-				<div class="col-md-3"><p><strong>Guardian's Name</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.get_guardian_name }}</p></div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><p><strong>Date of Birth</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.dob|date_format|date }}</p></div>
-			
-				<div class="col-md-3"><p><strong>Gender</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.get_gender }}</p></div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><p><strong>Caste</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.get_caste }}</p></div>
-			
-				<div class="col-md-3"><p><strong>Religion</strong>:</p> </div>
-				<div class="col-md-3"><p>{{ student.get_religion }}</p></div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><p><strong>First Language</strong>:</p></div>
-				<div class="col-md-3"><p>{{ student.get_fl_name }}</p></div>
-			
-				<div class="col-md-3"><p><strong>Second Language</strong>:</p></div>
-				<div class="col-md-3"><p>{{ student.get_sl_name }}</p></div>
-			</div>
-			<div class="row">
-				<div class="col-md-3"><p><strong>Optional Elective</strong>:</p></div>
-				<div class="col-md-3"><p>{% if student.opt %}{{ student.get_opt_name }}{% else %}NONE{% endif %}</p></div>
-			</div>
-		</div>	
-		<div class="row mt-3">
-			<div class="col-md-4"><a href="{% url 'student:select_student' serial=student.serial %}" class="btn btn-success d-block">Verified and Selected</a></div>
-			<div class="col-md-4"><a href="{% url 'student:not_select_student' serial=student.serial %}" class="btn btn-warning d-block">Verified and Not Selected</a></div>
-			<div class="col-md-4"><a href="{% url 'student:edit_student' serial=student.serial %}" class="btn btn-primary d-block">Edit</a></div>
-		</div>
-	</div>
+    <div class="container">
+        <h2>Student Details</h2>
+        <div class="p-2" style="background-color: #ededed;">
+            <div class="row">
+                <div class="col-md-3">
+                    <p><strong>Student Name</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.name }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Father's Name</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.f_name }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p><strong>Mother' Name</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.m_name }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Guardian's Name</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.get_guardian_name }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p><strong>Date of Birth</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.dob|date_format|date }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Gender</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.get_gender }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p><strong>Caste</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.get_caste }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Religion</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.get_religion }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p><strong>First Language</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.get_fl_name }}</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Second Language</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{{ student.get_sl_name }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p><strong>Optional Elective</strong>:</p>
+                </div>
+                <div class="col-md-3">
+                    <p>{% if student.opt %}{{ student.get_opt_name }}{% else %}NONE{% endif %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4"><a href="{% url 'student:select_student' serial=student.serial %}" class="btn btn-success d-block">Verified and Selected</a></div>
+            <div class="col-md-4"><a href="{% url 'student:not_select_student' serial=student.serial %}" class="btn btn-warning d-block">Verified and Not Selected</a></div>
+            <div class="col-md-4"><a href="{% url 'student:edit_student' serial=student.serial %}" class="btn btn-primary d-block">Edit</a></div>
+        </div>
+        {% if blank_warning|length > 0 %}
+        <div class="warning-box bg-info mt-3 py-3">
+        	<h5 class="pl-4 mb-3">Important Points to Consider:</h5>
+        	<ul>
+        		{% for bw in blank_warning %}<li>{{ bw }}</li>{% endfor %}
+        	</ul>
+        </div>
+        {% endif %}
+    </div>
 </section>
 {% endblock %}

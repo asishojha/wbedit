@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2w_q57^b3i0*!u$8^*ytg#bs9m965-s9p3$g)2m%+(7$+k-ax7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -76,23 +76,23 @@ WSGI_APPLICATION = 'wbpro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'wbedit',
-        'USER': 'asish',
-        'PASSWORD': 'netcom12',
-        'HOST': '20.198.101.155',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'wbedit',
+#         'USER': 'asish',
+#         'PASSWORD': 'netcom12',
+#         'HOST': '20.198.101.155',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -130,8 +130,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-AZURE_ACCOUNT_NAME = 'idmscdnsa'
+# STATIC_URL = '/static/'
+AZURE_ACCOUNT_NAME = 'idmscdn'
 AZURE_STORAGE_KEY = 'TS3fLiV/ZQ5HU6+kOdFJFs9YT2CFbRk+/QvLgcO90BuCTBHOVCYeWtFZzvTKNoyw9Nh3e8Kjlt25dpMGPzuFLQ=='
 AZURE_STATIC_CONTAINER = 'idmscdn'
 AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.azureedge.net'

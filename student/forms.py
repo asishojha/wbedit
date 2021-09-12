@@ -1,6 +1,7 @@
 from django import forms
 from .models import Student, SupportDocument
 from django.utils.translation import gettext_lazy as _
+from datetime import datetime
 
 FIRST_LANGUAGE_CODE = (
 	('02', 'BENGALI'),
@@ -35,7 +36,6 @@ OPTIONAL_ELECTIVE_CODE = (
 	("37", "SANSKRIT"),
 	("47", "HINDI(B LEVEL)"),
 	("52", "MATHEMATICS"),
-	("53", "BUILDING MATERIAL & CONST"),
 	("54", "PHYSICS"),
 	("55", "CHEMISTRY"),
 	("56", "BIOLOGY"),
@@ -119,6 +119,7 @@ class StudentForm(forms.ModelForm):
 		fl = cleaned_data.get('fl')
 		sl = cleaned_data.get('sl')
 		religion = cleaned_data.get('religion')
+		dob = cleaned_data.get('dob')
 		caste = cleaned_data.get('caste')
 
 		if fl == '02' and sl == '22':
@@ -142,6 +143,11 @@ class StudentForm(forms.ModelForm):
 					_('Islam cannot have caste SC/ST'),
 					code='invalid'
 					)
+		# if dob and dob > datetime.strptime('311007', '%d%m%y').date():
+		# 	raise forms.ValidationError(
+		# 		_('Invalid Option for Minimum Age Criteria'),
+		# 		code='invalid'
+		# 		) 
 		return cleaned_data
 
 # class SupportDocumentForm(forms.ModelForm):
