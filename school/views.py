@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -178,3 +179,20 @@ def reset_password(request):
 
 def instructions(request):
 	return render(request, 'school/instructions.html')
+
+@user_passes_test(lambda u:u.is_staff, login_url='/admin/login/')
+def school_status(request):
+	profile_created_schools = Profile.objects.all().count()
+	selected_students = Student.objects.filter(status='1').count()
+	not_selected_students = Student.objects.filter(status='2').count()
+	edited_students = Student.objects.filter(edited=True).count()
+	completed_profiles = Profile.objects.filter(complete=True).count()
+
+	context = {
+		'profile_created_schools': profile_created_schools,
+		'selected_students': selected_students,
+		'not_selected_students': not_selected_students,
+		'edited_students': edited_students,
+		'completed_profiles': completed_profiles
+	}
+	return render(request, 'school/live_data_status.html', context)
