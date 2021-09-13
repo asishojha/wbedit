@@ -28,7 +28,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['wbbsedata.com']
+ALLOWED_HOSTS = ['www.wbbsedata.com']
 
 
 # Application definition
