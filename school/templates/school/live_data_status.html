@@ -1,32 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>WBBSE PRO INFO COUNT</title>
-	<style type="text/css">
-		h3{
-			margin-bottom: 0;
-		}
-		p, ul{
-			margin: 0
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WBBSE PRO INFO COUNT</title>
+    <style type="text/css">
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    h3 {
+        margin-bottom: 0;
+    }
+
+    p,
+    ul {
+        margin: 0
+    }
+
+    .graphs {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .graph {
+        width: 33.3%;
+        padding: 10px;
+    }
+    .container{
+    	max-width: 90%;
+    	margin:  0 auto;
+    }
+    .text-box{
+    	display: inline-block;
+    	margin: 0 20px 10px 20px;
+    }
+    .text-box h3, .text-box p{
+    	text-align: center;
+    }
+    </style>
 </head>
+
 <body>
-	<h3>No. of Schools logged in:</h3>
-	<p>{{ profile_created_schools }}</p>
+	<div class="container">
+		<div class="text-box">
+		    <h3>No. of Schools logged in</h3>
+		    <p>{{ profile_created_schools }}</p>
+		</div>
+		<div class="text-box">
+		    <h3>No of Selected Students</h3>
+		    <p>{{ selected_students }}</p>
+		</div>
+		<div class="text-box">
+		    <h3>No of NOT Selected Students</h3>
+		    <p>{{ not_selected_students}}</p>
+		</div>
+		<div class="text-box">
+		    <h3>No. of Edited Students</h3>
+		    <p>{{ edited_students }}</p>
+		</div>
+		<div class="text-box">
+		    <h3>No. of Completed Schools</h3>
+		    <p>{{ completed_profiles}}</p>
+		</div>
+	    <div class="graphs">
+	        <div class="graph">
+	            <canvas id="loggedInSchools"></canvas>
+	        </div>
+	        <div class="graph">
+	            <canvas id="selectedStudents"></canvas>
+	        </div>
+	        <div class="graph">
+	            <canvas id="completedSchools"></canvas>
+	        </div>
+	    </div>
+	</div>
 
-	<h3>No of Selected Students:</h3>
-	<p>{{ selected_students }}</p>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script>
+    const total_schools = 9143;
+    const total_students = 1174619;
+    var remaining_schools = total_schools - {{ profile_created_schools }};
+    var remaining_students = total_students - {{ selected_students }};
+    var incompleteSchools = total_schools - {{ completed_profiles }};
 
-	<h3>No of NOT Selected Students:</h3>
-	<p>{{ not_selected_students}}</p>
 
-	<h3>No. of Edited Students:</h3>
-	<p>{{ edited_students }}</p>
+    var ctx = document.getElementById('loggedInSchools').getContext('2d');
+    var ctx2 = document.getElementById('selectedStudents').getContext('2d');
+    var ctx3 = document.getElementById('completedSchools').getContext('2d');
 
-	<h3>List of Complete School </h3>
-	<p>{{ completed_profiles}}</p>
+    const configLoggedInSchools = {
+        type: 'pie',
+        data: {
+            labels: ['Logged In Schools', 'Not Logged In Schools'],
+            datasets: [{
+                data: [{{ profile_created_schools }}, remaining_schools],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
+            }],
+        },
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+        ],
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Schools Logged In'
+                }
+            },
+        },
+    };
+
+    const configSelectedStudents = {
+        type: 'pie',
+        data: {
+            labels: ['Selected Students', 'Remaining of Total Students'],
+            datasets: [{
+                data: [{{ selected_students }}, remaining_students],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
+            }],
+        },
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+        ],
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Selected Students'
+                }
+            },
+        },
+    };
+
+    configCompletedSchools = {
+        type: 'pie',
+        data: {
+            labels: ['Completed Schools', 'Remaining Schools'],
+            datasets: [{
+                data: [{{ completed_profiles }}, incompleteSchools],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
+            }],
+        },
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+        ],
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Completed Schools'
+                }
+            },
+        },
+    };
+
+    var loggedInSchoolsChart = new Chart(ctx, configLoggedInSchools);
+    var selectedStudentsChart = new Chart(ctx2, configSelectedStudents);
+    var completedSchoolsChart = new Chart(ctx3, configCompletedSchools);
+    </script>
 </body>
+
 </html>

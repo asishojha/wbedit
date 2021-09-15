@@ -1,5 +1,0 @@
-1. Front End Student Detail Display Page
-2. Report as per whatsapp image - A4(Landscape) - If Selected -> Signature Space (__________)
-3. Selected | Not Selected  -> override save method for one boolean to be true at one time.
-4. Start Editing Data -> First pending student
-5. all your data has now been attended and your school report is generated. -> Download PDF of the report.
