@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, login_view, logout_view, student_list, submit_final_data, pdf_report, profile, reset_password, instructions, school_status
+from .views import index, login_view, logout_view, student_list, submit_final_data, pdf_report, profile, reset_password, instructions, school_status, download_pdfs 
 
 app_name = 'school'
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path('reset-password/', reset_password, name='reset_password'),
     path('instructions/', instructions, name='instructions'),
     path('data-summary/', school_status, name='school_status'),
+    path('download-pdfs/', download_pdfs, name='download_pdfs'),
 ]

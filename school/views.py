@@ -11,6 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from .models import Profile
 from .forms import UsersLoginForm, ProfileForm, PasswordResetForm
 from student.models import Student
+from .downloads import download_pdf
 
 import weasyprint
 
@@ -196,3 +197,9 @@ def school_status(request):
 		'completed_profiles': completed_profiles
 	}
 	return render(request, 'school/live_data_status.html', context)
+
+def download_pdfs(request):
+	schools = User.objects.exclude(is_staff=True)
+	for school in schools:
+		download_pdf(school)
+	return HttpResponse('PASSED')
