@@ -198,8 +198,8 @@ def school_status(request):
 	}
 	return render(request, 'school/live_data_status.html', context)
 
-def download_pdfs(request):
+def download_pdfs():
 	schools = User.objects.exclude(is_staff=True)
 	for school in schools:
 		download_pdf(school)
-	return HttpResponse('PASSED')
+		print('Downloading PDF for school', school.username)
