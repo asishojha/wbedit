@@ -11,7 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from .models import Profile
 from .forms import UsersLoginForm, ProfileForm, PasswordResetForm
 from student.models import Student
-from .downloads import download_pdf
+# from .downloads import download_pdf
 
 import weasyprint
 
