@@ -201,5 +201,5 @@ def school_status(request):
 def download_pdfs():
 	schools = User.objects.exclude(is_staff=True)
 	for school in schools:
-		download_pdf(school)
+		# download_pdf(school)
 		print('Downloading PDF for school', school.username)
