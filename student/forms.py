@@ -165,18 +165,18 @@ class StudentForm(forms.ModelForm):
 			raise forms.ValidationError(
 				_('Invalid FL and SL combination'),
 				code='invalid'
-				)
+			)
 		if religion == '2':
 			if caste == '2' or caste == '1':
 				raise forms.ValidationError(
 					_('Islam cannot have caste SC/ST'),
 					code='invalid'
-					)
-		# if dob and dob > datetime.strptime('311007', '%d%m%y').date():
-		# 	raise forms.ValidationError(
-		# 		_('Invalid Option for Minimum Age Criteria'),
-		# 		code='invalid'
-		# 		) 
+				)
+		if dob and dob > datetime.strptime('311008', '%d%m%y').date():
+			raise forms.ValidationError(
+				_('Invalid Option for Minimum Age Criteria'),
+				code='invalid'
+			) 
 		return cleaned_data
 
 # class SupportDocumentForm(forms.ModelForm):
