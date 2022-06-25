@@ -1,6 +1,8 @@
 from django import forms
+from django.conf import settings
 from .models import Student, SupportDocument
 from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import filesizeformat
 from datetime import datetime
 
 FIRST_LANGUAGE_CODE = (
@@ -97,6 +99,26 @@ SEX_CHOICES = (
 	("2", "FEMALE")
 )
 
+class RestrictedFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        self.content_types = kwargs.pop('content_types', None)
+        self.max_upload_size = kwargs.pop('max_upload_size', None)
+        super(RestrictedFileField, self).__init__(*args, **kwargs)
+
+    def clean(self, *args, **kwargs):
+        cleaned_data = super(RestrictedFileField, self).clean(*args, **kwargs)
+        try:
+            if cleaned_data.content_type in self.content_types:
+                if cleaned_data.size > self.max_upload_size:
+                    raise forms.ValidationError(
+                        _('File size must be under %s') % filesizeformat(self.max_upload_size))
+            else:
+                raise forms.ValidationError(
+                    _('Please upload a jpg/jpeg file only'))
+        except AttributeError:
+            pass
+        return cleaned_data
+
 class StudentForm(forms.ModelForm):
 	fl = forms.ChoiceField(choices=FIRST_LANGUAGE_CODE, label='First Language')
 	sl = forms.ChoiceField(choices=SECOND_LANGUAGE_CODE, label='Second Language')
@@ -107,13 +129,11 @@ class StudentForm(forms.ModelForm):
 	dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='Date of Birth', required=False)
 	edited = forms.CharField(widget=forms.HiddenInput)
 	document = forms.CharField(max_length=50, help_text='Please mention the supporting document on basis of which the change was made. Ex: admission register / birth certificate / etc', required=False)
-
+	profile_picture = RestrictedFileField(required=False, content_types=['image/jpeg'], max_upload_size=settings.MAX_FILE_SIZE, widget=forms.FileInput)
+	
 	class Meta:
 		model = Student
 		exclude = ['school', 'school_profile', 'serial', 'dob_edited', 'selected', 'not_selected', 'g_indicator', 'status', 'path_target']
-		widgets = {
-            'profile_picture': forms.FileInput,
-        }
 
 	def __init__(self, *args, **kwargs):
 		super(StudentForm, self).__init__(*args, **kwargs)

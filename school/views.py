@@ -2,18 +2,18 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.template.loader import render_to_string
-from django.contrib.auth.models import Permission, User
+from django.template.loader import get_template
 from django.contrib.contenttypes.models import ContentType
 from .models import Profile
 from .forms import UsersLoginForm, ProfileForm, PasswordResetForm
 from student.models import Student
-# from .downloads import download_pdf
 
-import weasyprint
+import pdfkit
+import time
+# from .downloads import download_pdf
 
 def index(request):
 	return render(request, 'school/index.html')
@@ -33,7 +33,7 @@ def login_view(request):
 
 
 		try:
-			profile = user.profile
+			user.profile
 			if not user.has_perm('auth.can_change_password'):
 				return redirect('school:student_list')
 			return redirect('school:reset_password')
@@ -52,7 +52,7 @@ def logout_view(request):
 @login_required
 def student_list(request):
 	try:
-		profile = request.user.profile
+		request.user.profile
 		pass
 	except Profile.DoesNotExist:
 		return redirect('school:profile')
@@ -119,17 +119,28 @@ def submit_final_data(request):
 
 @login_required
 def pdf_report(request):
-	html = render_to_string('school/pdf-report.html', {'school': request.user})
-	response = HttpResponse(content_type='application/pdf')
-	response['Content-Disposition'] = 'filename="{}.pdf"'.format(request.user.username)
-	weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(response)
+	template = get_template('school/pdf-report.html')
+	output = template.render(context={'school': request.user})
+	time.sleep(2)
+	options = {
+        'page-size': 'A4',
+        'margin-top': '0.5in',
+        'margin-right': '0.5in',
+        'margin-bottom': '0.5in',
+        'margin-left': '0.5in',
+        'encoding': "UTF-8",
+        'orientation': 'landscape'
+    }
+	pdf = pdfkit.from_string(output, False, options)
+	response = HttpResponse(pdf, content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="{}.pdf"'.format(request.user.username)
 	return response
 
 @login_required
 def profile(request):
 	user = request.user
 	try:
-		profile = request.user.profile
+		request.user.profile
 		return redirect('school:student_list')
 	except Profile.DoesNotExist:
 		pass
@@ -154,7 +165,7 @@ def profile(request):
 def reset_password(request):
 	if not request.user.has_perm('auth.can_change_password'):
 		try:
-			profile = request.user.profile
+			request.user.profile
 			return redirect('school:student_list')
 		except Profile.DoesNotExist:
 			return redirect('school:profile')
