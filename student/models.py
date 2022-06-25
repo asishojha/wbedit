@@ -173,6 +173,12 @@ STATUS_CHOICES = (
 	('2', 'Not Selected'),
 )
 
+def profile_upload_path(instance, filename):
+	extension = filename.split('.')[-1]
+	path = instance.path_target.split('.')[0].replace('\\', '/')
+	print('{0}.{1}'.format(path, extension))
+	return '{0}.{1}'.format(path, extension)
+
 class Student(models.Model):
 	school = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 	school_profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
@@ -192,6 +198,7 @@ class Student(models.Model):
 	serial = models.CharField(max_length=4)
 	edited = models.BooleanField(default=False)
 	status = models.CharField(max_length=1, choices=STATUS_CHOICES, null=True)
+	profile_picture = models.FileField(upload_to=profile_upload_path, null=True, blank=True)
 
 	def __str__(self):
 		return self.school.username
