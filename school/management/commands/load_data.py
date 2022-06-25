@@ -7,6 +7,13 @@ import time
 
 from student.models import Student
 
+def get_profile_pic_path(data):
+    if data['profile_pic_ind'] == '1':
+        path_target = data['path_target']
+        split_paths = path_target.split('\\')
+        filename = split_paths[1].split('.')[0].lower()
+        return f'{split_paths[0]}/{filename}_t1.JPG'
+    return None
 
 class Command(BaseCommand):
     help = 'Load data in database'
@@ -44,10 +51,11 @@ class Command(BaseCommand):
             with open('STD.CSV', 'r') as csv_file:
                 reader = csv.DictReader(csv_file)
                 for row in reader:
-                    print(row)
                     school_id = User.objects.get(username=row['school_username']).id
-                    row.pop('school_username')
                     row['school_id'] = school_id
+                    row['profile_picture'] = get_profile_pic_path(row)
+                    row.pop('school_username')
+                    row.pop('profile_pic_ind')
                     students.append(Student(**row))
                 csv_file.close()
 
