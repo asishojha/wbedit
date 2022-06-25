@@ -12,10 +12,8 @@
 	 		size:landscape;
 	 	}
 	 	body{
-	 		margin-left: 0;
-	 		margin-right: 0;
-	 		padding-left: 0;
-	 		padding-right: 0;
+	 		margin: 0;
+			padding: 0;
 	 	}
 	 	*{
 	 		font-family: 'Roboto', sans-serif;
@@ -23,30 +21,28 @@
 	 	}
 	 	tbody tr td{
 	 		padding: 8px 2px;
-	 		text-align: left;
 	 		font-size: 14px;
 	 	}
 	 	th{
 	 		padding: 5px 2px;
-	 		text-align: left;
 	 	}
 	 	table{
 	 		width: 100%;
 	 		margin-top: 10px;
-	 		border-collapse: collapse;
-	 		border-spacing: 0;
 	 	}
+		table, th, td {
+			border: 1px solid black;
+			border-collapse: collapse;
+			text-align: center;
+		}
 	 	.logo{
-	 		position: absolute;
-	 		top: -50px;
-	 		left: -20px;
+	 		display: inline-block;
+			vertical-align: middle;
 	 	}
 	 	.heading{
-	 		position: absolute;
-	 		top: -50px;
-	 		left: 50%;
-	 		transform: translateX(-50%);
-	 		text-align: center;
+			display: inline-block;
+			vertical-align: middle;
+			margin-left: 15px;
 	 	}
 	 	.heading h2{
 	 		margin: 0;
@@ -65,7 +61,7 @@
 	 		padding-bottom: 50px;
 	 	}
 	 	p.school-info{
-	 		margin-top: 50px;
+	 		margin-top: 20px;
 	 	}
 	 	.bottom-box{
 	 		text-align: right;
@@ -75,15 +71,22 @@
 	 		margin: 0;
 	 	}
 	 	.verified_declaration{
-	 		border-bottom: 1px solid #000;
-	 		padding-bottom: 2px;
-	 		font-weight: bold;
-	 		display: inline-block;
-	 		font-size: 18px;
-	 	}
+			font-size: 18px;
+			border-bottom: 1px solid #000;
+			padding-bottom: 2px;
+		}
+		.verified_declaration span{
+			font-weight: bold;
+			padding-left: 2px;
+		}
 	 	.declaration_line{
 	 		padding-top: 10px;
 	 	}
+		.signature{
+			border-top: 1px solid #000;
+			display: inline-block;
+			padding-top: 2px;
+		}
 	</style>
 </head>
 <body>
@@ -91,22 +94,22 @@
 		<img src="{% static 'logo.png' %}" />
 	</div>
 	<div class="heading">
-		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2020</h2>
+		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2021</h2>
 	</div>
 	<p class="school-info"><strong>School: {{ school.username|index_format }} {{ school.first_name }}</strong></p>
-	<table>
+	<table width="100%">
 		<thead style="background: rgba(0, 0, 0, 0.5);">
-			<th>SRL</th>
-			<th>Name<br>Father's Name</th>
-			<th>Mother's Name<br>Guardian's Name</th>
-			<th>S<br>X</th>
-			<th>R<br>L</th>
-			<th>C<br>C</th>
-			<th>DOB</th>
-			<th>FL</th>
-			<th>SL</th>
-			<th>OP EL</th>
-			<th>Candidate's Signature</th>
+			<th width="5%">SRL</th>
+			<th width="20%">Name<br>Father's Name</th>
+			<th width="20%">Mother's Name<br>Guardian's Name</th>
+			<th width="4%">S<br>X</th>
+			<th width="4%">R<br>L</th>
+			<th width="4%">C<br>C</th>
+			<th width="8%">DOB</th>
+			<th width="5%">FL</th>
+			<th width="5%">SL</th>
+			<th width="5%">OP EL</th>
+			<th width="20%">Candidate's Signature</th>
 		</thead>
 		<tbody>
 			{% for s in school.student_set.all %}
@@ -121,18 +124,17 @@
 				<td>{{ s.fl }}<br>{{ s.get_fl_short_code }}</td>
 				<td>{{ s.sl }}<br>{{ s.get_sl_short_code }}</td>
 				<td>{{ s.opt }}<br>{{ s.get_opt_el_short_code }}</td>
-				<td>{% if s.status == '1' %}_________________________{% else %}Not Selected{% endif %}</td>
+				<td>{% if not s.status == '1' %}Not Selected{% endif %}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 	<div class="bottom-box">
 		<div class="declaration">
-			<p class="verified_declaration">*Entire data has been verified by {{ school.profile.verification_name }}.</p>
+			<p class="verified_declaration">* Entire data has been verified by <span> {{ school.profile.verification_name }}</span>.</p>
 			<p class="declaration_line"><strong>I, as a Headmaster/Head Clerk, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2020 prvoided by the West Bengal Board of Secondary Education is checked by the school.</strong></p>
 		</div>
-		<p>___________________________________________________________</p>
-		<p><strong>Signature of The Head of The Institution along with the seal</strong></p>
+		<p class="signature"><strong>Signature of The Head of The Institution along with the seal</strong></p>
 	</div>
 </body>
 </html>
