@@ -12,8 +12,7 @@ from school.models import Profile
 @can_edit_data
 def student(request, serial):
 	try:
-		profile = request.user.profile
-		pass
+		request.user.profile
 	except Profile.DoesNotExist:
 		return redirect('school:profile')
 
@@ -54,8 +53,7 @@ def student(request, serial):
 @can_edit_data
 def select_student(request, serial):
 	try:
-		profile = request.user.profile
-		pass
+		request.user.profile
 	except Profile.DoesNotExist:
 		return redirect('school:profile')
 
@@ -77,7 +75,7 @@ def select_student(request, serial):
 		messages.error(request, f'Student with \"Blank Date of Birth\",  {student.name} can not be selected.')
 		return redirect(student.get_absolute_url())
 
-	elif datetime.strptime(dob, '%d%m%y') and datetime.strptime(dob, '%d%m%y') > datetime.strptime('311007', '%d%m%y'):
+	elif datetime.strptime(dob, '%d%m%y') and datetime.strptime(dob, '%d%m%y') > datetime.strptime('311008', '%d%m%y'):
 		messages.error(request, f'Under-Age Student,  {student.name} can not be selected.')
 		return redirect(student.get_absolute_url())
 
@@ -95,8 +93,7 @@ def select_student(request, serial):
 @can_edit_data
 def not_select_student(request, serial):
 	try:
-		profile = request.user.profile
-		pass
+		request.user.profile
 	except Profile.DoesNotExist:
 		return redirect('school:profile')
 
@@ -121,8 +118,7 @@ def not_select_student(request, serial):
 @can_edit_data
 def edit_student(request, serial):
 	try:
-		profile = request.user.profile
-		pass
+		request.user.profile
 	except Profile.DoesNotExist:
 		return redirect('school:profile')
 		
@@ -143,7 +139,7 @@ def edit_student(request, serial):
 	form = StudentForm(initial=student_dict)
 
 	if request.method == 'POST':
-		form = StudentForm(request.POST, instance=student)
+		form = StudentForm(request.POST, request.FILES, instance=student)
 		if form.is_valid():
 			support_document = form.cleaned_data.get('document')
 			edited = form.cleaned_data.get('edited')
@@ -165,6 +161,7 @@ def edit_student(request, serial):
 			return redirect(student.get_absolute_url())
 
 	context = {
-		'form': form
+		'form': form,
+		'student': student
 	}
 	return render(request, 'student/form.html', context)

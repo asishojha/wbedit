@@ -110,12 +110,18 @@ class StudentForm(forms.ModelForm):
 
 	class Meta:
 		model = Student
-		exclude = ['school', 'school_profile', 'path_target', 'serial', 'dob_edited', 'selected', 'not_selected', 'g_indicator', 'status']
+		exclude = ['school', 'school_profile', 'serial', 'dob_edited', 'selected', 'not_selected', 'g_indicator', 'status', 'path_target']
+		widgets = {
+            'profile_picture': forms.FileInput,
+        }
 
 	def __init__(self, *args, **kwargs):
 		super(StudentForm, self).__init__(*args, **kwargs)
 		for field in self.fields:
-			self.fields[field].widget.attrs.update({'class': 'form-control mb-3'})
+			if field != 'profile_picture':
+				self.fields[field].widget.attrs.update({'class': 'form-control mb-3'})
+			else:
+				self.fields[field].widget.attrs.update({'title': ''})
 
 	def clean(self, *args, **kwargs):
 		cleaned_data = self.cleaned_data

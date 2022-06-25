@@ -17,6 +17,64 @@
     .support-document-form{
         display: none;
     }
+    input#id_profile_picture{
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 15px;
+        right: 15px;
+        bottom: 0;
+        z-index: 2;
+        opacity: 0;
+    }
+    .blank-image{
+        display: block;
+        height: 100%;
+        background: lightgray;
+        border: 1px solid #000;
+        position: relative;
+    }
+    .blank-image-label{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .profile_picture{
+        position: relative;
+    }
+    .profile_picture::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        opacity: 0;
+        transition: .25s ease-in-out all;
+    }
+    #id_profile_picture:hover + .profile_picture::before{
+        opacity: 1;
+    }
+    .profile_picture img{
+        width: 100%;
+        height: 257px;
+        object-fit: cover;
+        object-position: top center;
+    }
+    .change-image-label{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: .25s ease-in-out all;
+        color: #fff;
+    }
+    #id_profile_picture:hover + .profile_picture .change-image-label{
+        opacity: 1;
+    }
 </style>
 {% endblock %}
 {% load i18n %}
@@ -36,19 +94,44 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <form method="POST" action=".">
+                <form method="POST" action="." enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="edit-form">
                         <input type="hidden" name="school" value="{{ student.school.id }}" />
                         <input type="hidden" name="edited" value="0" id="id_edited" />
                         <div class="row">
-                            {% for field in form %}{% if field.name != 'edited' and field.name != 'document' %}
-                            <div class="{% if forloop.counter > 4 and forloop.counter < 9 %}col-md-3{% elif forloop.counter > 8 %}col-md-4{% elif field.name == 'document' %}col-md-12{% else %}col-md-6{% endif %}">
+                            <div class="col-md-3" style="position: relative;">
+                                {{ form.profile_picture }}
+                                <div class="profile_picture h-100">
+                                    {% if student.profile_picture %}
+                                    <img src="{{ student.profile_picture.url }}" />
+                                    <span class="change-image-label">Change Image</span>
+                                    {% else %}
+                                    <span class="blank-image"><span class="blank-image-label">Upload Image</span></span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    {% for field in form %}
+                                    {% if field.name == 'name' or field.name == 'f_name' or field.name == 'm_name' %}
+                                    <div class="col-md-12">
+                                        <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                        {{ field }}
+                                        {% if field.help_text %}<p class="help_text">{{ field.help_text }}</p>{% endif %}
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% for field in form %}{% if field.name != 'name' and field.name != 'm_name' and field.name != 'f_name' and field.name != 'edited' and field.name != 'document' and field.name != 'profile_picture' %}
+                            <div class="col-md-3">
                                 <label for="{{ field.auto_id }}">{{ field.label }}</label>
                                 {{ field }}
                                 {% if field.help_text %}<p class="help_text">{{ field.help_text }}</p>{% endif %}
                             </div>
-                            {% endif %}{% endfor %}
+                            {% endif %}
+                            {% endfor %}
                             <div class="col-12">
                                 <button class="btn btn-warning btn-block edit-form-button" type="button">{% trans "Submit" %}</button>
                             </div>
@@ -81,6 +164,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(document).ready(function() {
+    $('#id_profile_picture').on("change", function(){
+        console.log($(this))
+    })
     $name = $('#id_name').val();
     $originalForm = $("form :input[name!=sex][name!=fl][name!=sl][name!=opt][name!=religion]").serialize();
     $edited = $('#id_edited');
