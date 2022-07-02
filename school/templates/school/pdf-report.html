@@ -119,7 +119,7 @@
 		<tbody>
 			{% for s in school.student_set.all %}
 			<tr class="{% cycle 'white' 'gray' %}">
-				<td>{{ s.serial }}</td>
+				<td>{{ s.serial }}{% if s.edited %}*{% endif %}</td>
 				<td>{% if s.profile_picture %}<img src="{{ s.profile_picture.url }}" />{% else %}No Image{% endif %}</td>
 				<td>{{ s.name }}<br>{{ s.f_name }}</td>
 				<td>{{ s.m_name }}<br>{{ s.get_guardian_name }}</td>
