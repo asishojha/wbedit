@@ -8,11 +8,16 @@ import time
 from student.models import Student
 
 def get_profile_pic_path(data):
-    if data['profile_pic_ind'] == '1':
+    if data['profile_pic_ind'].lower() == 'y':
         path_target = data['path_target']
         split_paths = path_target.split('\\')
         filename = split_paths[1].split('.')[0].lower()
         return f'{split_paths[0]}/{filename}_t1.JPG'
+    elif data['profile_pic_ind'].lower() == 'z':
+        path_target = data['path_target']
+        split_paths = path_target.split('\\')
+        filename = split_paths[1].split('.')[0].lower()
+        return f'{split_paths[0]}/{filename}.JPG'
     return None
 
 class Command(BaseCommand):
@@ -55,7 +60,8 @@ class Command(BaseCommand):
                     row['school_id'] = school_id
                     row['profile_picture'] = get_profile_pic_path(row)
                     row.pop('school_username')
-                    row.pop('profile_pic_ind')
+
+                    print(f"\033[0mLoading Student {row['school_id']} - {row['serial']}")
                     students.append(Student(**row))
                 csv_file.close()
 

@@ -176,7 +176,6 @@ STATUS_CHOICES = (
 def profile_upload_path(instance, filename):
 	extension = filename.split('.')[-1]
 	path = instance.path_target.split('.')[0].replace('\\', '/')
-	print('{0}.{1}'.format(path, extension))
 	return '{0}.{1}'.format(path, extension)
 
 class Student(models.Model):
@@ -199,6 +198,7 @@ class Student(models.Model):
 	edited = models.BooleanField(default=False)
 	status = models.CharField(max_length=1, choices=STATUS_CHOICES, null=True)
 	profile_picture = models.FileField(upload_to=profile_upload_path, null=True, blank=True)
+	profile_pic_ind = models.CharField(max_length=1, null=True, blank=True)
 
 	def __str__(self):
 		return self.school.username
@@ -278,6 +278,12 @@ class Student(models.Model):
 			self.g_name = self.g_name.upper()
 		except Exception:
 			pass
+
+		if self.profile_picture and self.profile_picture != '':
+			if self.profile_pic_ind and self.profile_pic_ind != '':
+				self.profile_pic_ind = 'c'
+			else:
+				self.profile_pic_ind = 'n'
 		super(Student, self).save(*args, **kwargs)
 
 class SupportDocument(models.Model):
