@@ -36,7 +36,7 @@ class ProfileForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(ProfileForm, self).__init__(*args, **kwargs)
 		
-		self.fields['headmaster_name'].label = 'Name of H.M. / T.I.C'      
+		self.fields['headmaster_name'].label = 'Name of the Head of Institution'      
 		self.fields['headmaster_phone'].label = 'Mobile Number'
 		self.fields['headmaster_email'].label = 'E-mail Address'
 

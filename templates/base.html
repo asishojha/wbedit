@@ -34,11 +34,11 @@
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:student_list' %}">Students List</a></li>
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:instructions' %}">Instructions</a></li>
                 <li class='nav-item dropdown'>
-                    <a class='nav-link dropdown-toggle text-light text-uppercase font-weight-bold px-3' id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">Download Challan</a>
-                    <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                        <li><a class="dropwdown-item nav-link text-light text-uppercase font-weight-bold" href="{% static 'challan/Challan_002.pdf' %}" target="_blank">State Bank of India</a></li>
-                        <li><a class="dropwdown-item nav-link text-light text-uppercase font-weight-bold" href="{% static 'challan/Challan_001.pdf' %}" target="_blank">Other than SBI</a></li>
-                    </ul>
+                    <a class='nav-link dropdown-toggle text-light text-uppercase font-weight-bold px-3' id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download Challan</a>
+                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropwdown-item nav-link text-light text-uppercase font-weight-bold" href="{% static 'challan/Challan_002.pdf' %}" target="_blank">State Bank of India</a>
+                        <a class="dropwdown-item nav-link text-light text-uppercase font-weight-bold" href="{% static 'challan/Challan_001.pdf' %}" target="_blank">Other than SBI</a>
+                    </div>
                 </li>
                 {% if request.user.is_authenticated %}
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:logout' %}">Logout</a></li>

@@ -133,7 +133,7 @@ class StudentForm(forms.ModelForm):
 	
 	class Meta:
 		model = Student
-		exclude = ['school', 'school_profile', 'serial', 'dob_edited', 'selected', 'not_selected', 'g_indicator', 'status', 'path_target']
+		exclude = ['school', 'school_profile', 'serial', 'dob_edited', 'selected', 'not_selected', 'g_indicator', 'status', 'path_target', 'profile_pic_ind']
 
 	def __init__(self, *args, **kwargs):
 		super(StudentForm, self).__init__(*args, **kwargs)
