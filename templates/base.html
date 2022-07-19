@@ -33,6 +33,7 @@
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:index' %}">Home</a></li>
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:student_list' %}">Students List</a></li>
                 <li class='nav-item'><a class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% url 'school:instructions' %}">Instructions</a></li>
+                <li class='nav-item'><a target="_blank" class='nav-link text-light text-uppercase font-weight-bold px-3' href="{% static 'schedule/EMUC34.pdf' %}">EMU/C/34</a></li>
                 <li class='nav-item dropdown'>
                     <a class='nav-link dropdown-toggle text-light text-uppercase font-weight-bold px-3' id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download Challan</a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
@@ -62,5 +63,4 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     {% block script %}{% endblock %}
 </body>
-
 </html>
