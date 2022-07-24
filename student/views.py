@@ -144,7 +144,15 @@ def edit_student(request, serial):
 			support_document = form.cleaned_data.get('document')
 			edited = form.cleaned_data.get('edited')
 			form.cleaned_data.pop('edited')
+
 			s = form.save(commit=False)
+			original_profile_picture = Student.objects.get(school=request.user, serial=serial).profile_picture
+			if original_profile_picture != s.profile_picture:
+				if not original_profile_picture:
+					s.profile_pic_ind = 'n'
+				else:
+					s.profile_pic_ind = 'c'
+
 			try:
 				dob = form.cleaned_data.get('dob').strftime('%d%m%y')
 			except AttributeError:

@@ -278,12 +278,6 @@ class Student(models.Model):
 			self.g_name = self.g_name.upper()
 		except Exception:
 			pass
-
-		if self.profile_picture and self.profile_picture != '':
-			if self.profile_pic_ind and self.profile_pic_ind != '':
-				self.profile_pic_ind = 'c'
-			else:
-				self.profile_pic_ind = 'n'
 		super(Student, self).save(*args, **kwargs)
 
 class SupportDocument(models.Model):
