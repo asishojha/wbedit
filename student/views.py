@@ -151,7 +151,7 @@ def edit_student(request, serial):
 				if not original_profile_picture:
 					s.profile_pic_ind = 'n'
 				else:
-					s.profile_pic_ind = 'c'
+					s.profile_pic_ind = 'd'
 
 			try:
 				dob = form.cleaned_data.get('dob').strftime('%d%m%y')
