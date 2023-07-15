@@ -1,14 +1,9 @@
-from django.conf import settings
-from storages.backends.azure_storage import AzureStorage
+from storages.backends.s3boto3 import S3Boto3Storage
 
-class AzureStaticStorage(AzureStorage):
-    account_name = settings.AZURE_ACCOUNT_NAME
-    account_key = settings.AZURE_STORAGE_KEY
-    azure_container = settings.AZURE_STATIC_CONTAINER
-    expiration_secs = None
 
-class AzureMediaStorage(AzureStorage):
-    account_name = settings.AZURE_ACCOUNT_NAME
-    account_key = settings.AZURE_STORAGE_KEY
-    azure_container = settings.AZURE_MEDIA_CONTAINER
-    expiration_secs = None
+class S3MediaStorage(S3Boto3Storage):
+    bucket_name = "wbedit-profile-pictures"
+    location = ""
+    region_name = "ap-south-1"
+    signature_version = "s3v4"
+    addressing_style = "path"
