@@ -87,7 +87,7 @@ def select_student(request, serial):
 
     elif datetime.strptime(dob, "%d%m%y") and datetime.strptime(
         dob, "%d%m%y"
-    ) > datetime.strptime("311008", "%d%m%y"):
+    ) > datetime.strptime("311009", "%d%m%y"):
         messages.error(
             request, f"Under-Age Student,  {student.name} can not be selected."
         )
