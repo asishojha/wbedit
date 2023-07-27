@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 from .models import Profile
 from .forms import UsersLoginForm, ProfileForm, PasswordResetForm
 from student.models import Student
@@ -145,7 +146,8 @@ def submit_final_data(request):
 @login_required
 def pdf_report(request):
     template = get_template("school/pdf-report.html")
-    output = template.render(context={"school": request.user})
+    current_site = Site.objects.get_current()
+    output = template.render(context={"school": request.user, "domain": current_site.domain})
     time.sleep(2)
     options = {
         "page-size": "A4",
