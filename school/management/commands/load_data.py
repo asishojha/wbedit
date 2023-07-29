@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from itertools import islice
 
 import csv
 import time
@@ -48,8 +47,9 @@ class Command(BaseCommand):
             users = []
             with open("SCH.CSV", "r") as csv_file:
                 reader = csv.DictReader(csv_file)
+                password = make_password("password")
                 for row in reader:
-                    row["password"] = make_password("password")
+                    row["password"] = password
 
                     print(f"\033[0mLoading school {row['username']}")
                     users.append(User(**row))
@@ -78,12 +78,21 @@ class Command(BaseCommand):
                     students.append(Student(**row))
                 csv_file.close()
 
-            batch_size = 100
+            batch_size = 10000
+            start = 0
+            stop = batch_size
+            batch_count = 0
+
             while True:
-                batch = list(islice(students, batch_size))
+                x = slice(start, stop)
+                batch = students[x]
                 if not batch:
                     break
+                start += batch_size
+                stop += batch_size
                 Student.objects.bulk_create(batch, batch_size)
+                batch_count += 1
+                print(f"\033[0mBatch {batch_count} created!")
                 print("\033[1;32m-" * 21)
 
             print("\033[1;32mStudent objects created!")
