@@ -172,7 +172,7 @@ class StudentForm(forms.ModelForm):
 					_('Islam cannot have caste SC/ST'),
 					code='invalid'
 				)
-		if dob and dob > datetime.strptime('311008', '%d%m%y').date():
+		if dob and dob > datetime.strptime('311009', '%d%m%y').date():
 			raise forms.ValidationError(
 				_('Invalid Option for Minimum Age Criteria'),
 				code='invalid'
