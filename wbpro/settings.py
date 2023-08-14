@@ -90,11 +90,6 @@ DATABASES = {
         "HOST": env("DATABASE_HOST"),
         "PORT": "3306",
     }
-    if DEBUG is False
-    else {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
 }
 
 
