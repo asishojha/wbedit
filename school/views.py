@@ -147,7 +147,10 @@ def submit_final_data(request):
 def pdf_report(request):
     template = get_template("school/pdf-report.html")
     current_site = Site.objects.get_current()
-    output = template.render(context={"school": request.user, "domain": current_site.domain})
+    display_pp = True
+    if request.user.username in ["E3073", "E3048"]:
+        display_pp = False
+    output = template.render(context={"school": request.user, "domain": current_site.domain, "display_pp": display_pp})
     time.sleep(2)
     options = {
         "page-size": "A4",
