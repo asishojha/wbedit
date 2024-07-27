@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('student', '0008_alter_supportdocument_document'),
+        ("student", "0008_alter_supportdocument_document"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='student',
-            name='dob',
-            field=models.CharField(blank=True, max_length=10, null=True, verbose_name='Date of Birth'),
+            model_name="student",
+            name="dob",
+            field=models.CharField(
+                blank=True, max_length=10, null=True, verbose_name="Date of Birth"
+            ),
         ),
     ]

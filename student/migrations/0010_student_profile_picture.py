@@ -5,15 +5,16 @@ import student.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('student', '0009_alter_student_dob'),
+        ("student", "0009_alter_student_dob"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='student',
-            name='profile_picture',
-            field=models.FileField(blank=True, null=True, upload_to=student.models.profile_upload_path),
+            model_name="student",
+            name="profile_picture",
+            field=models.FileField(
+                blank=True, null=True, upload_to=student.models.profile_upload_path
+            ),
         ),
     ]

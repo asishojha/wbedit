@@ -6,22 +6,29 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('school', '0001_initial'),
+        ("school", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('student', '0001_initial'),
+        ("student", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='student',
-            name='school',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            model_name="student",
+            name="school",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='student',
-            name='school_profile',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='school.profile'),
+            model_name="student",
+            name="school_profile",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="school.profile",
+            ),
         ),
     ]

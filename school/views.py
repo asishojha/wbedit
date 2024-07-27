@@ -150,7 +150,13 @@ def pdf_report(request):
     display_pp = True
     if request.user.username in ["E3073", "E3048", "E3016"]:
         display_pp = False
-    output = template.render(context={"school": request.user, "domain": current_site.domain, "display_pp": display_pp})
+    output = template.render(
+        context={
+            "school": request.user,
+            "domain": current_site.domain,
+            "display_pp": display_pp,
+        }
+    )
     time.sleep(2)
     options = {
         "page-size": "A4",
@@ -241,10 +247,3 @@ def school_status(request):
         "completed_profiles": completed_profiles,
     }
     return render(request, "school/live_data_status.html", context)
-
-
-def download_pdfs():
-    schools = User.objects.exclude(is_staff=True)
-    for school in schools:
-        # download_pdf(school)
-        print("Downloading PDF for school", school.username)

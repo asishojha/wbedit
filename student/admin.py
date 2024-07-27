@@ -3,10 +3,12 @@ from .models import Student, SupportDocument
 
 
 class StudentAdmin(admin.ModelAdmin):
-	pass
+    pass
+
 
 class SupportDocumentAdmin(admin.ModelAdmin):
-	pass
+    pass
+
 
 admin.site.register(Student, StudentAdmin)
 admin.site.register(SupportDocument, SupportDocumentAdmin)

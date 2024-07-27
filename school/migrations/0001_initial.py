@@ -7,7 +7,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -16,15 +15,38 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('headmaster_name', models.CharField(max_length=50)),
-                ('headmaster_email', models.EmailField(max_length=70)),
-                ('headmaster_phone', models.BigIntegerField(validators=[django.core.validators.MinValueValidator(1000000000), django.core.validators.MaxValueValidator(9999999999)])),
-                ('created_on', models.DateTimeField(auto_now_add=True)),
-                ('modified_on', models.DateTimeField(auto_now=True)),
-                ('school', models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("headmaster_name", models.CharField(max_length=50)),
+                ("headmaster_email", models.EmailField(max_length=70)),
+                (
+                    "headmaster_phone",
+                    models.BigIntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1000000000),
+                            django.core.validators.MaxValueValidator(9999999999),
+                        ]
+                    ),
+                ),
+                ("created_on", models.DateTimeField(auto_now_add=True)),
+                ("modified_on", models.DateTimeField(auto_now=True)),
+                (
+                    "school",
+                    models.OneToOneField(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

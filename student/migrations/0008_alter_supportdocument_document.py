@@ -4,15 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('student', '0007_supportdocument'),
+        ("student", "0007_supportdocument"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='supportdocument',
-            name='document',
-            field=models.CharField(help_text='Please mention the supporting document on basis of which the change was made. Ex: admission register / birth certificate / etc', max_length=50),
+            model_name="supportdocument",
+            name="document",
+            field=models.CharField(
+                help_text="Please mention the supporting document on basis of which the change was made. Ex: admission register / birth certificate / etc",
+                max_length=50,
+            ),
         ),
     ]

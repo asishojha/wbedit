@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('school', '0002_profile_complete'),
+        ("school", "0002_profile_complete"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='password_changed',
+            model_name="profile",
+            name="password_changed",
             field=models.BooleanField(default=False),
         ),
     ]
