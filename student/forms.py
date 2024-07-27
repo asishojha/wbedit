@@ -197,5 +197,5 @@ class StudentForm(forms.ModelForm):
             )
 
         if dob and dob > datetime.strptime("311010", "%d%m%y").date():
-            cleaned_data["underage_student"] = True
+            cleaned_data["underage_candidate"] = True
         return cleaned_data
