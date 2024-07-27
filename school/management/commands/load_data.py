@@ -18,7 +18,7 @@ def get_profile_pic_path(data):
         path_target = data["path_target"]
         split_paths = path_target.split("\\")
         filename = split_paths[1].split(".")[0].lower()
-        return f"{split_paths[0]}/{filename}.JPG"
+        return f"{split_paths[0]}/{filename}.jpg"
     return None
 
 
