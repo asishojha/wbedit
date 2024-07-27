@@ -195,4 +195,7 @@ class StudentForm(forms.ModelForm):
             raise forms.ValidationError(
                 _("Invalid Option for Minimum Age Criteria"), code="invalid"
             )
+
+        if dob and dob > datetime.strptime("311010", "%d%m%y").date():
+            cleaned_data["underage_student"] = True
         return cleaned_data
