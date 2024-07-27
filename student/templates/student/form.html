@@ -124,7 +124,7 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            {% for field in form %}{% if field.name != 'name' and field.name != 'm_name' and field.name != 'f_name' and field.name != 'edited' and field.name != 'document' and field.name != 'profile_picture' %}
+                            {% for field in form %}{% if field.name != 'name' and field.name != 'm_name' and field.name != 'f_name' and field.name != 'edited' and field.name != 'document' and field.name != 'profile_picture' and field.name != 'underage_candidate' %}
                             <div class="col-md-3">
                                 <label for="{{ field.auto_id }}">{{ field.label }}</label>
                                 {{ field }}

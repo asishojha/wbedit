@@ -155,7 +155,6 @@ class StudentForm(forms.ModelForm):
             "status",
             "path_target",
             "profile_pic_ind",
-            "underage_candidate"
         ]
 
     def __init__(self, *args, **kwargs):
