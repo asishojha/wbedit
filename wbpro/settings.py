@@ -26,7 +26,7 @@ environ.Env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -83,15 +83,10 @@ WSGI_APPLICATION = "wbpro.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": env("DATABASE_NAME"),
-        "USER": env("DATABASE_USER"),
-        "PASSWORD": env("DATABASE_PASSWORD"),
-        "HOST": env("DATABASE_HOST"),
-        "PORT": "3306",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3",
     }
 }
-
 
 
 # Password validation
