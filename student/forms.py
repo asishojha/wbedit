@@ -155,6 +155,7 @@ class StudentForm(forms.ModelForm):
             "status",
             "path_target",
             "profile_pic_ind",
+            "underage_candidate"
         ]
 
     def __init__(self, *args, **kwargs):
@@ -190,7 +191,7 @@ class StudentForm(forms.ModelForm):
                 raise forms.ValidationError(
                     _("Islam cannot have caste SC/ST"), code="invalid"
                 )
-        if dob and dob > datetime.strptime("311010", "%d%m%y").date():
+        if dob and dob > datetime.strptime("310711", "%d%m%y").date():
             raise forms.ValidationError(
                 _("Invalid Option for Minimum Age Criteria"), code="invalid"
             )

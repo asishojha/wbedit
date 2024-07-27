@@ -95,7 +95,7 @@
 </head>
 <body>
 	<div class="logo">
-		<img src="{{ domain }}{% static 'logo.png' %}" />
+		{% comment %} <img src="{{ domain }}{% static 'logo.png' %}" /> {% endcomment %}
 	</div>
 	<div class="heading">
 		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2023</h2>
@@ -126,7 +126,7 @@
 				<td>{% if s.sex == '1' %}M{% else %}F{% endif %}</td>
 				<td>{{ s.religion }}</td>
 				<td>{% if s.caste %}{{ s.caste }}{% endif %}</td>
-				<td>{{ s.dob|date_format|date:'d/m/Y' }}</td>
+				<td>{{ s.dob|date_format|date:'d/m/Y' }}<br>{% if s.underage_candidate %}(Underage){% endif %}</td>
 				<td>{{ s.fl }}<br>{{ s.get_fl_short_code }}</td>
 				<td>{{ s.sl }}<br>{{ s.get_sl_short_code }}</td>
 				<td>{{ s.opt }}<br>{{ s.get_opt_el_short_code }}</td>

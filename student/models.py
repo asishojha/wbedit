@@ -206,6 +206,7 @@ class Student(models.Model):
         upload_to=profile_upload_path, null=True, blank=True
     )
     profile_pic_ind = models.CharField(max_length=1, null=True, blank=True)
+    underage_candidate = models.BooleanField(default=False)
 
     def __str__(self):
         return self.school.username
