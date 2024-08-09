@@ -8,9 +8,6 @@
 	<title>{{ school.username }} Report</title>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-		@page {
-	 		size:landscape;
-	 	}
 	 	body{
 	 		margin: 0;
 			padding: 0;
@@ -90,6 +87,15 @@
 		td img{
 			width: 35px;
 			height: auto;
+		}
+		tr {
+			page-break-inside: avoid;
+		}
+		thead {
+			display: table-header-group;
+		}
+		tfoot {
+			display: table-footer-group;
 		}
 	</style>
 </head>
