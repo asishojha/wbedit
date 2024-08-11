@@ -89,19 +89,19 @@
 			height: auto;
 		}
 		tr {
-			page-break-inside: avoid;
+			page-break-inside: avoid !important;
 		}
 		thead {
-			display: table-header-group;
+			display: table-header-group !important;
 		}
 		tfoot {
-			display: table-footer-group;
+			display: table-footer-group !important;
 		}
 	</style>
 </head>
 <body>
 	<div class="logo">
-		{% comment %} <img src="{{ domain }}{% static 'logo.png' %}" /> {% endcomment %}
+		{% comment %} <img src="{{ domain }}http://127.0.0.1:8000/static/logo.png" /> {% endcomment %}
 	</div>
 	<div class="heading">
 		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2023</h2>
@@ -110,7 +110,7 @@
 	<table width="100%">
 		<thead style="background: rgba(0, 0, 0, 0.5);">
 			<th width="5%">SRL</th>
-			{% if display_pp %}<th width="10%">Profile Picture</th>{% endif %}
+			<th width="10%">Profile Picture</th>
 			<th width="20%">Name<br>Father's Name</th>
 			<th width="20%">Mother's Name<br>Guardian's Name</th>
 			<th width="3%">S<br>X</th>
@@ -126,7 +126,7 @@
 			{% for s in school.student_set.all %}
 			<tr class="{% cycle 'white' 'gray' %}">
 				<td>{{ s.serial }}{% if s.edited %}*{% endif %}</td>
-				{% if display_pp %}<td>{% if s.profile_picture %}<img src="{{ s.profile_picture.url }}" />{% else %}No Image{% endif %}</td>{% endif %}
+				<td>{% if s.profile_picture %}<img src="http://127.0.0.1:8000/static/logo.png" />{% else %}No Image{% endif %}</td>
 				<td>{{ s.name }}<br>{{ s.f_name }}</td>
 				<td>{{ s.m_name }}<br>{{ s.get_guardian_name }}</td>
 				<td>{% if s.sex == '1' %}M{% else %}F{% endif %}</td>
