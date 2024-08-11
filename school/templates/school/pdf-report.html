@@ -16,6 +16,15 @@
 	 		font-family: 'Roboto', sans-serif;
 	 		letter-spacing: 0.5px;
 	 	}
+		tr {
+			page-break-inside: avoid !important;
+		}
+		thead {
+			display: table-header-group !important;
+		}
+		tfoot {
+			display: table-footer-group !important;
+		}
 	 	tbody tr td{
 	 		padding: 8px 2px;
 	 		font-size: 14px;
@@ -87,15 +96,6 @@
 		td img{
 			width: 35px;
 			height: auto;
-		}
-		tr {
-			page-break-inside: avoid;
-		}
-		thead {
-			display: table-header-group;
-		}
-		tfoot {
-			display: table-footer-group;
 		}
 	</style>
 </head>
