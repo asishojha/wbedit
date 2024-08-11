@@ -1,152 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
-{% load custom_filters %}
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ school.username }} Report</title>
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-	 	body{
-	 		margin: 0;
-			padding: 0;
-	 	}
-	 	*{
-	 		font-family: 'Roboto', sans-serif;
-	 		letter-spacing: 0.5px;
-	 	}
-		tr {
-			page-break-inside: avoid !important;
-		}
-		thead {
-			display: table-header-group !important;
-		}
-		tfoot {
-			display: table-footer-group !important;
-		}
-	 	tbody tr td{
-	 		padding: 8px 2px;
-	 		font-size: 14px;
-	 	}
-	 	th{
-	 		padding: 5px 2px;
-	 	}
-	 	table{
-	 		width: 100%;
-	 		margin-top: 10px;
-	 	}
-		table, th, td {
-			border: 1px solid black;
-			border-collapse: collapse;
-			text-align: center;
-		}
-	 	.logo{
-	 		display: inline-block;
-			vertical-align: middle;
-	 	}
-	 	.heading{
-			display: inline-block;
-			vertical-align: middle;
-			margin-left: 15px;
-	 	}
-	 	.heading h2{
-	 		margin: 0;
-	 	}
-	 	.logo img{
-	 		width: 75px;
-	 	}
-	 	.white{
-	 		background-color: floralwhite;
-	 	}
-	 	.gray{
-	 		background-color: rgba(0, 0, 0, 0.3);
-	 	}
-	 	.declaration{
-	 		text-align: left !important;
-	 		padding-bottom: 50px;
-	 	}
-	 	p.school-info{
-	 		margin-top: 20px;
-	 	}
-	 	.bottom-box{
-	 		text-align: right;
-	 		padding-top: 50px;
-	 	}
-	 	.bottom-box p{
-	 		margin: 0;
-	 	}
-	 	.verified_declaration{
-			font-size: 18px;
-			border-bottom: 1px solid #000;
-			padding-bottom: 2px;
-		}
-		.verified_declaration span{
-			font-weight: bold;
-			padding-left: 2px;
-		}
-	 	.declaration_line{
-	 		padding-top: 10px;
-	 	}
-		.signature{
-			border-top: 1px solid #000;
-			display: inline-block;
-			padding-top: 2px;
-		}
-		td img{
-			width: 35px;
-			height: auto;
-		}
-	</style>
-</head>
-<body>
-	<div class="logo">
-		{% comment %} <img src="{{ domain }}{% static 'logo.png' %}" /> {% endcomment %}
-	</div>
-	<div class="heading">
-		<h2>Final Report of Data Verification of Registration for Class(IX) Year 2023</h2>
-	</div>
-	<p class="school-info"><strong>School: {{ school.username|index_format }} {{ school.first_name }}</strong></p>
-	<table width="100%">
-		<thead style="background: rgba(0, 0, 0, 0.5);">
-			<th width="5%">SRL</th>
-			{% if display_pp %}<th width="10%">Profile Picture</th>{% endif %}
-			<th width="20%">Name<br>Father's Name</th>
-			<th width="20%">Mother's Name<br>Guardian's Name</th>
-			<th width="3%">S<br>X</th>
-			<th width="3%">R<br>L</th>
-			<th width="3%">C<br>C</th>
-			<th width="7%">DOB</th>
-			<th width="4%">FL</th>
-			<th width="4%">SL</th>
-			<th width="4%">OP EL</th>
-			<th width="17%">Candidate's Signature</th>
-		</thead>
-		<tbody>
-			{% for s in school.student_set.all %}
-			<tr class="{% cycle 'white' 'gray' %}">
-				<td>{{ s.serial }}{% if s.edited %}*{% endif %}</td>
-				{% if display_pp %}<td>{% if s.profile_picture %}<img src="{{ s.profile_picture.url }}" />{% else %}No Image{% endif %}</td>{% endif %}
-				<td>{{ s.name }}<br>{{ s.f_name }}</td>
-				<td>{{ s.m_name }}<br>{{ s.get_guardian_name }}</td>
-				<td>{% if s.sex == '1' %}M{% else %}F{% endif %}</td>
-				<td>{{ s.religion }}</td>
-				<td>{% if s.caste %}{{ s.caste }}{% endif %}</td>
-				<td>{{ s.dob|date_format|date:'d/m/Y' }}<br>{% if s.underage_candidate %}(Underage){% endif %}</td>
-				<td>{{ s.fl }}<br>{{ s.get_fl_short_code }}</td>
-				<td>{{ s.sl }}<br>{{ s.get_sl_short_code }}</td>
-				<td>{{ s.opt }}<br>{{ s.get_opt_el_short_code }}</td>
-				<td>{% if not s.status == '1' %}Not Selected{% endif %}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<div class="bottom-box">
-		<div class="declaration">
-			<p class="verified_declaration">* Entire data has been verified by <span> {{ school.profile.verification_name }}</span>.</p>
-			<p class="declaration_line"><strong>I, as the Head of the Institution, hereby declare that the above mentioned data of the Students of the school for registration of Class IX for the year 2023 prvoided by the West Bengal Board of Secondary Education is checked by the school.</strong></p>
-		</div>
-		<p class="signature"><strong>Signature of The Head of The Institution along with the seal</strong></p>
-	</div>
-</body>
+  {% load static %} {% load custom_filters %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ school.username }} Report</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      * {
+        font-family: "Roboto", sans-serif;
+        letter-spacing: 0.5px;
+      }
+      tr {
+        page-break-inside: avoid !important;
+      }
+      thead {
+        display: table-header-group !important;
+      }
+      tfoot {
+        display: table-footer-group !important;
+      }
+      tbody tr td {
+        padding: 8px 2px;
+        font-size: 14px;
+      }
+      th {
+        padding: 5px 2px;
+      }
+      table {
+        width: 100%;
+        margin-top: 10px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+      }
+      .logo {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .heading {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 15px;
+      }
+      .heading h2 {
+        margin: 0;
+      }
+      .logo img {
+        width: 75px;
+        {% comment %} height: 75px; {% endcomment %}
+      }
+      .white {
+        background-color: floralwhite;
+      }
+      .gray {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      .declaration {
+        text-align: left !important;
+        padding-bottom: 50px;
+      }
+      p.school-info {
+        margin-top: 20px;
+      }
+      .bottom-box {
+        text-align: right;
+        padding-top: 50px;
+      }
+      .bottom-box p {
+        margin: 0;
+      }
+      .verified_declaration {
+        font-size: 18px;
+        border-bottom: 1px solid #000;
+        padding-bottom: 2px;
+      }
+      .verified_declaration span {
+        font-weight: bold;
+        padding-left: 2px;
+      }
+      .declaration_line {
+        padding-top: 10px;
+      }
+      .signature {
+        border-top: 1px solid #000;
+        display: inline-block;
+        padding-top: 2px;
+      }
+      td img {
+        width: 35px;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo">
+      {% comment %} <img src="{{ domain }}{% static 'logo.png' %}" /> {% endcomment %}
+    </div>
+    <div class="heading">
+      <h2>
+        Final Report of Data Verification of Registration for Class(IX) Year
+        2023
+      </h2>
+    </div>
+    <p class="school-info">
+      <strong>School: {{ school.username|index_format }} {{ school.first_name }}</strong>
+    </p>
+    <table width="100%">
+      <thead style="background: rgba(0, 0, 0, 0.5)">
+        <th width="5%">SRL</th>
+        {% if display_pp %}<th width="10%">Profile Picture</th>{% endif %}
+        <th width="20%">Name<br />Father's Name</th>
+        <th width="20%">Mother's Name<br />Guardian's Name</th>
+        <th width="3%">S<br />X</th>
+        <th width="3%">R<br />L</th>
+        <th width="3%">C<br />C</th>
+        <th width="7%">DOB</th>
+        <th width="4%">FL</th>
+        <th width="4%">SL</th>
+        <th width="4%">OP EL</th>
+        <th width="17%">Candidate's Signature</th>
+      </thead>
+      <tbody>
+        {% for s in school.student_set.all %}
+        <tr class="{% cycle 'white' 'gray' %}">
+          <td>{{ s.serial }}{% if s.edited %}*{% endif %}</td>
+          {% if display_pp %}
+          <td>
+            {% comment %} {% if s.profile_picture %}<img src="{{ s.profile_picture.url }}" />{% else %}No Image{% endif %} {% endcomment %}
+          </td>
+          {% endif %}
+          <td>{{ s.name }}<br />{{ s.f_name }}</td>
+          <td>{{ s.m_name }}<br />{{ s.get_guardian_name }}</td>
+          <td>{% if s.sex == '1' %}M{% else %}F{% endif %}</td>
+          <td>{{ s.religion }}</td>
+          <td>{% if s.caste %}{{ s.caste }}{% endif %}</td>
+          <td>{{ s.dob|date_format|date:'d/m/Y' }}<br />{% if s.underage_candidate %}(Underage){% endif %}</td>
+          <td>{{ s.fl }}<br />{{ s.get_fl_short_code }}</td>
+          <td>{{ s.sl }}<br />{{ s.get_sl_short_code }}</td>
+          <td>{{ s.opt }}<br />{{ s.get_opt_el_short_code }}</td>
+          <td>{% if not s.status == '1' %}Not Selected{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="bottom-box">
+      <div class="declaration">
+        <p class="verified_declaration">
+          * Entire data has been verified by
+          <span> {{ school.profile.verification_name }}</span>.
+        </p>
+        <p class="declaration_line">
+          <strong>
+            I, as the Head of the Institution, hereby declare that the above
+            mentioned data of the Students of the school for registration of
+            Class IX for the year 2023 prvoided by the West Bengal Board of
+            Secondary Education is checked by the school.
+          </strong>
+        </p>
+      </div>
+      <p class="signature">
+        <strong>Signature of The Head of The Institution along with the seal</strong>
+      </p>
+    </div>
+  </body>
 </html>
