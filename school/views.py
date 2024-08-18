@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
+from django.utils import timezone
 from .models import Profile
 from .forms import UsersLoginForm, ProfileForm, PasswordResetForm
 from student.models import Student
@@ -128,12 +129,14 @@ def submit_final_data(request):
         return redirect("school:student_list")
 
     if request.method == "POST":
+        now = timezone.now()
         agree = request.POST.get("agree")
         verification_name = request.POST.get("verification_name")
 
         if agree:
             profile.complete = True
             profile.verification_name = verification_name
+            profile.final_submitted_at = now
             profile.save()
             messages.success(
                 request,

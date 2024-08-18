@@ -76,6 +76,13 @@
 	 	.bottom-box p{
 	 		margin: 0;
 	 	}
+		.report-date {
+			text-align: center;
+			padding-top: 50px;
+		}
+		.report-date p {
+			margin: 0;
+		}
 	 	.verified_declaration{
 			font-size: 18px;
 			border-bottom: 1px solid #000;
@@ -148,5 +155,10 @@
 		</div>
 		<p class="signature"><strong>Signature of The Head of The Institution along with the seal</strong></p>
 	</div>
+	{% if school.profile.final_submitted_at %}
+	<div class="report-date">
+		<p>**The final submission of this school was done on {{ school.profile.final_submitted_at|date:'d/m/Y' }}.**</p>
+	</div>
+	{% endif %}
 </body>
 </html>
