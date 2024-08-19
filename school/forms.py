@@ -35,7 +35,7 @@ class UsersLoginForm(forms.Form):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ["school", "complete", "password_changed", "verification_name"]
+        exclude = ["school", "complete", "password_changed", "verification_name", "final_submitted_at"]
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
